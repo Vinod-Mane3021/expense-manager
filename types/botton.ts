@@ -1,5 +1,8 @@
+import React from 'react'
+
 export interface NavButtonProps {
     href: string;
     label: string;
-    isActive?: boolean
+    isActive?: boolean;
+    icon: any
 }
