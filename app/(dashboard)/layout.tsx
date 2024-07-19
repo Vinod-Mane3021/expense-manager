@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import NewAccountSheet from "@/features/accounts/components/new-account-sheet";
 import { ChildrenProps } from "@/types";
 
 const DashboardLayout = ({ children }: ChildrenProps) => {
