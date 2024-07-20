@@ -21,9 +21,9 @@ const app = new Hono()
 
     return c.json({ data });
   })
-
+  
   .post(
-    "/create",
+    "/",
     clerkMiddleware(),
     zValidator("json", createAccountSchema),
     async (c) => {

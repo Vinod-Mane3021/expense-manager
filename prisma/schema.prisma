@@ -18,5 +18,5 @@ model Accounts {
   id      Int    @id @default(autoincrement())
   plaidId Int? @unique
   name    String @unique
-  userId  String @unique
+  userId  String
 }
