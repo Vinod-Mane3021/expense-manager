@@ -95,6 +95,11 @@ export function DataTable<TData, TValue>({
               // size="sm"
               variant="outline"
               className="font-normal text-red-400 hover:text-red-600"
+              onClick={() => {
+                const rows = table.getFilteredSelectedRowModel().rows;
+                onDelete(rows);
+                table.resetRowSelection()
+              }}
             >
               <Trash className="size-4 mr-2" />
               Delete ({table.getFilteredSelectedRowModel().rows.length})
@@ -128,7 +133,7 @@ export function DataTable<TData, TValue>({
                   );
                 })}
             </DropdownMenuContent>
-          </DropdownMenu>          
+          </DropdownMenu>
         </div>
 
         {/* column Visibility */}

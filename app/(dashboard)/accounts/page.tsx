@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,136 +9,38 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
-import { Plus } from "lucide-react";
-import { columns, Payment } from "./columns";
 import { DataTable } from "@/components/data-table";
-
-const data: Payment[] = [
-  {
-    id: "1",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "2",
-    amount: 800,
-    status: "success",
-    email: "vinod@gmal.com",
-  },
-  {
-    id: "3",
-    amount: 200,
-    status: "failed",
-    email: "jeet@gmal.com",
-  },
-  {
-    id: "4",
-    amount: 150,
-    status: "pending",
-    email: "sara@example.com",
-  },
-  {
-    id: "5",
-    amount: 300,
-    status: "success",
-    email: "alex@gmal.com",
-  },
-  {
-    id: "6",
-    amount: 400,
-    status: "failed",
-    email: "john@gmal.com",
-  },
-  {
-    id: "7",
-    amount: 250,
-    status: "pending",
-    email: "lisa@example.com",
-  },
-  {
-    id: "8",
-    amount: 350,
-    status: "success",
-    email: "paul@gmal.com",
-  },
-  {
-    id: "9",
-    amount: 450,
-    status: "failed",
-    email: "anna@gmal.com",
-  },
-  {
-    id: "10",
-    amount: 500,
-    status: "pending",
-    email: "mike@example.com",
-  },
-  {
-    id: "11",
-    amount: 600,
-    status: "success",
-    email: "jane@gmal.com",
-  },
-  {
-    id: "12",
-    amount: 700,
-    status: "failed",
-    email: "peter@gmal.com",
-  },
-  {
-    id: "13",
-    amount: 550,
-    status: "pending",
-    email: "kate@example.com",
-  },
-  {
-    id: "14",
-    amount: 150,
-    status: "success",
-    email: "tom@gmal.com",
-  },
-  {
-    id: "15",
-    amount: 250,
-    status: "failed",
-    email: "emily@gmal.com",
-  },
-  {
-    id: "16",
-    amount: 350,
-    status: "pending",
-    email: "sam@example.com",
-  },
-  {
-    id: "17",
-    amount: 450,
-    status: "success",
-    email: "will@gmal.com",
-  },
-  {
-    id: "18",
-    amount: 300,
-    status: "failed",
-    email: "chris@gmal.com",
-  },
-  {
-    id: "19",
-    amount: 400,
-    status: "pending",
-    email: "nina@example.com",
-  },
-  {
-    id: "20",
-    amount: 500,
-    status: "success",
-    email: "jake@gmal.com",
-  },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
+import { useDeleteAccounts } from "@/features/accounts/api/use-delete-accounts";
+import { useGetAccounts } from "@/features/accounts/api/use-get-account";
+import { AccountResponseType } from "@/types/account";
+import { columns } from "./columns";
 
 const AccountsPage = () => {
   const newAccount = useNewAccount();
+  const deleteAccounts = useDeleteAccounts();
+  const accountQuery = useGetAccounts();
+  const accounts: AccountResponseType[] = accountQuery.data || [];
+
+  const isDisabled = accountQuery.isLoading || deleteAccounts.isPending;
+
+  if (accountQuery.isLoading) {
+    return (
+      <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+        <Card className="border-none drop-shadow-sm">
+          <CardHeader>
+            <Skeleton className="h-8 w-48" />
+          </CardHeader>
+          <CardContent>
+            <div className="h-[500px] w-full flex items-center justify-center">
+              <Loader2 className="size-6 text-slate-300 animate-spin" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
@@ -151,11 +54,14 @@ const AccountsPage = () => {
         </CardHeader>
         <CardContent>
           <DataTable
-            onDelete={() => {}}
+            onDelete={(rows) => {
+              const ids = rows.map((r) => r.original.id);
+              deleteAccounts.mutate({ ids });
+            }}
             filterKey="email"
             columns={columns}
-            data={data}
-            disabled={false}
+            data={accounts}
+            disabled={isDisabled}
           />
         </CardContent>
       </Card>

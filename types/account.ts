@@ -1,5 +1,8 @@
 import { createAccountSchema } from "@/validations/schema/accounts";
 import { z } from "zod";
+import { InferResponseType } from 'hono'
+import { client } from "@/lib/hono";
+import HttpStatusCode from "@/constants/http-status-code";
 
 export type AccountFormValues = z.input<typeof createAccountSchema>;
 
@@ -10,3 +13,5 @@ export type AccountFormProps = {
     onDelete?: () => void;
     disabled?: boolean;
 };
+
+export type AccountResponseType = InferResponseType<typeof client.api.accounts.$get, HttpStatusCode.OK>["data"][0]
