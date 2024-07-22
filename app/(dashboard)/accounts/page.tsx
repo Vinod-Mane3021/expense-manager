@@ -13,7 +13,7 @@ import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 import { useDeleteAccounts } from "@/features/accounts/api/use-delete-accounts";
-import { useGetAccounts } from "@/features/accounts/api/use-get-account";
+import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { AccountResponseType } from "@/types/account";
 import { columns } from "./columns";
 
@@ -58,7 +58,7 @@ const AccountsPage = () => {
               const ids = rows.map((r) => r.original.id);
               deleteAccounts.mutate({ ids });
             }}
-            filterKey="email"
+            filterKey="name"
             columns={columns}
             data={accounts}
             disabled={isDisabled}

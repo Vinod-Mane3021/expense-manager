@@ -1,5 +1,5 @@
 
-import { SquareGanttChart, ArrowRightLeft, UserRound, Settings, LayoutTemplate } from 'lucide-react';
+import { SquareGanttChart, ArrowRightLeft, UserRound, Settings, LayoutTemplate, UserRoundPen } from 'lucide-react';
 
 export const navRoutes = [
   {
@@ -18,7 +18,7 @@ export const navRoutes = [
     id: 3,
     href: "/accounts",
     label: "Accounts",
-    icon: <UserRound className='h-full w-full'/>
+    icon: <UserRoundPen className='h-full w-full'/>
   },
   {
     id: 4,

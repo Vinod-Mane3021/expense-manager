@@ -1,3 +1,4 @@
 export const ResponseMessage = {
-    UNAUTHORIZED_TO_ACCESS_RESOURCE: "You are unauthorized to access this resource",
+    UNAUTHORIZED_TO_ACCESS_RESOURCE: "You are unauthorized to access this resource.",
+    INVALID_INPUTS: "Invalid inputs."
 }
