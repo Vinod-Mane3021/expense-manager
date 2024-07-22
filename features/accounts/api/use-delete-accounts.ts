@@ -28,7 +28,9 @@ export const useDeleteAccounts = () => {
       return data;
     },
     onSuccess: (data, json) => {
-      toast.success(json.ids.length + " Accounts deleted.");
+      const idsLength = json.ids.length;
+      const message = idsLength > 1 ? " account's deleted." : " account deleted.";
+      toast.success(idsLength + message);
       // This will refetch the all accounts, every time I delete account
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
       // TODO: also invalidate summary

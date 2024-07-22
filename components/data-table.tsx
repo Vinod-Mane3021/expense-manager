@@ -34,7 +34,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useState } from "react";
-import { ArrowDown, ChevronDown, Trash } from "lucide-react";
+import { ChevronDown, Trash } from "lucide-react";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,10 +76,32 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const selectedRow = table.getFilteredSelectedRowModel().rows;
+
+  const [ConfirmationDialog, confirm] = useConfirm({
+    title: "Are you absolutely sure?",
+    message:"This action cannot be undone. This will permanently delete your accounts from our servers.",
+    confirmButtonLabel: selectedRow.length > 1 ? "Yes, delete account's" : "Yes, delete account",
+    type: "alert"
+  });
+
+  // This function is responsible for deleting users account
+  const handleDeleteAccount = async () => {
+    const isConfirm = await confirm();
+    if (isConfirm) {
+      console.log("rows length -> ", selectedRow.length)
+      onDelete(selectedRow);
+      table.resetRowSelection();
+    }
+  };
+
   return (
     <div>
-      {/* Filter */}
+      {/* dialog */}
+      <ConfirmationDialog />
+
       <div className="flex items-center py-4">
+        {/* Filter */}
         <Input
           placeholder={`Filter ${filterKey}...`}
           value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ""}
@@ -89,20 +112,16 @@ export function DataTable<TData, TValue>({
         />
         <div className="flex ml-auto gap-5">
           {/*  delete functionality */}
-          {table.getFilteredSelectedRowModel().rows.length > 0 && (
+          {selectedRow.length > 0 && (
             <Button
               disabled={disabled}
               // size="sm"
               variant="outline"
               className="font-normal text-red-400 hover:text-red-600"
-              onClick={() => {
-                const rows = table.getFilteredSelectedRowModel().rows;
-                onDelete(rows);
-                table.resetRowSelection()
-              }}
+              onClick={handleDeleteAccount}
             >
               <Trash className="size-4 mr-2" />
-              Delete ({table.getFilteredSelectedRowModel().rows.length})
+              Delete ({selectedRow.length})
             </Button>
           )}
 
@@ -195,7 +214,7 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center justify-end space-x-2 py-4">
         {/* Show Row Selection */}
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {selectedRow.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <Button
