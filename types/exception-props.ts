@@ -1,4 +1,4 @@
-import HttpStatusCode from "@/constants/http-status-code";
+import { HttpStatusCode } from "@/constants/http-status-code";
 import { HttpStatus } from "@/constants/response-status";
 
 export interface HTTPExceptionProps {

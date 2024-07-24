@@ -1,13 +1,13 @@
-import HttpStatusCode from "@/constants/http-status-code";
+import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { db } from "@/lib/db";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import {
-  createAccountSchema,
+  accountNameSchema,
   deleteAccountSchema,
-  getAccountSchema,
+  accountIdSchema,
 } from "@/validations/schema/accounts";
 
 const app = new Hono()
@@ -36,7 +36,7 @@ const app = new Hono()
   .get(
     "/:id",
     clerkMiddleware(),
-    zValidator("param", getAccountSchema),
+    zValidator("param", accountIdSchema),
     async (c) => {
       const auth = getAuth(c);
       if (!auth?.userId) {
@@ -48,7 +48,7 @@ const app = new Hono()
 
       const { id } = c.req.valid("param");
       if (!id) {
-        return c.json({ error: "Missing id" }, HttpStatusCode.BAD_REQUEST);
+        return c.json({ error: "Missing account id" }, HttpStatusCode.BAD_REQUEST);
       }
 
       const data = await db.accounts.findUnique({
@@ -74,7 +74,7 @@ const app = new Hono()
   .post(
     "/create",
     clerkMiddleware(),
-    zValidator("json", createAccountSchema),
+    zValidator("json", accountNameSchema),
     async (c) => {
       const auth = getAuth(c);
       if (!auth?.userId) {
@@ -125,6 +125,53 @@ const app = new Hono()
       });
 
       return c.json({ count });
+    }
+  )
+
+  // to update the account name
+  .patch(
+    "/:id",
+    clerkMiddleware(),
+    zValidator("param", accountIdSchema),
+    zValidator("json", accountNameSchema),
+    async (c) => {
+      const auth = getAuth(c);
+      if (!auth?.userId) {
+        return c.json(
+          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
+          HttpStatusCode.UNAUTHORIZED
+        );
+      }
+
+      const { id } = c.req.valid("param");
+      if (!id) {
+        return c.json({ error: "Missing account id" }, HttpStatusCode.BAD_REQUEST);
+      }
+
+      const { name } = c.req.valid("json");
+      if (!name) {
+        return c.json({ error: "Missing account name" }, HttpStatusCode.BAD_REQUEST);
+      }
+
+      console.log("PRINT")
+      console.log("id - " + id + " " + " name - ", name)
+      console.log("userId ", auth.userId)
+
+      const data = await db.accounts.update({
+        where: {
+          userId: auth.userId,
+          id: Number(id),
+        },
+        data: {
+          name,
+        },
+      });
+
+      if (!data) {
+        return c.json({ error: "Not Found" }, HttpStatusCode.NOT_FOUND);
+      }
+
+      return c.json({ data });
     }
   );
 

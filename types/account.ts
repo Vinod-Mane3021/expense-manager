@@ -1,10 +1,10 @@
-import { createAccountSchema } from "@/validations/schema/accounts";
+import { accountNameSchema } from "@/validations/schema/accounts";
 import { z } from "zod";
 import { InferResponseType } from 'hono'
 import { client } from "@/lib/hono";
-import HttpStatusCode from "@/constants/http-status-code";
+import { HttpStatusCode } from "@/constants/http-status-code";
 
-export type AccountFormValues = z.input<typeof createAccountSchema>;
+export type AccountFormValues = z.input<typeof accountNameSchema>;
 
 export type AccountFormProps = {
     id?: string;

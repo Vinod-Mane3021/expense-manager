@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { createAccountSchema } from "@/validations/schema/accounts";
+import { accountNameSchema } from "@/validations/schema/accounts";
 import {
     Form,
     FormControl,
@@ -24,7 +24,7 @@ const AccountForm = ({
     disabled,
 }: AccountFormProps) => {
     const form = useForm<AccountFormValues>({
-        resolver: zodResolver(createAccountSchema),
+        resolver: zodResolver(accountNameSchema),
         defaultValues: defaultValues,
     });
 
@@ -33,7 +33,6 @@ const AccountForm = ({
     };
 
     const handleDelete = () => {
-        console.log("handleDelete : ");
         onDelete?.();
     };
 

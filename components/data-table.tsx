@@ -36,6 +36,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ChevronDown, Trash } from "lucide-react";
 import { useConfirm } from "@/hooks/use-confirm";
+import { deleteAccountDialogProps } from "@/constants/props";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -77,12 +78,10 @@ export function DataTable<TData, TValue>({
   });
 
   const selectedRow = table.getFilteredSelectedRowModel().rows;
-
+  
   const [ConfirmationDialog, confirm] = useConfirm({
-    title: "Are you absolutely sure?",
-    message:"This action cannot be undone. This will permanently delete your accounts from our servers.",
+    ...deleteAccountDialogProps,
     confirmButtonLabel: selectedRow.length > 1 ? "Yes, delete account's" : "Yes, delete account",
-    type: "alert"
   });
 
   // This function is responsible for deleting users account

@@ -5,36 +5,46 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
 import { toast } from "sonner";
 
-type ResponseType = InferResponseType<typeof client.api.accounts["create"]["$post"]>;
-type RequestType = InferRequestType<typeof client.api.accounts["create"]["$post"]>["json"];
+type ResponseType = InferResponseType<
+  (typeof client.api.accounts)[":id"]["$patch"]
+>;
+type RequestType = InferRequestType<
+  (typeof client.api.accounts)[":id"]["$patch"]
+>["json"];
 
-export const useCreateAccount = () => {
+export const useEditAccount = (id?: string) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async (json) => {
-      const response = await client.api.accounts.create.$post({ json });
-      if(response.status == HttpStatusCode.UNAUTHORIZED) {
+      const response = await client.api.accounts[":id"].$patch({
+        param: { id },
+        json,
+      });
+      if (response.status == HttpStatusCode.UNAUTHORIZED) {
         throw new Error(ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE);
       }
-      if(!response.ok) {
-        throw new Error("Failed to create account");
+      if(response.status == HttpStatusCode.BAD_REQUEST) {
+        throw new Error(ResponseMessage.INVALID_INPUTS);
+      }
+      if (!response.ok) {
+        throw new Error("Failed to edit account");
       }
       const data = await response.json();
       return data;
     },
     onSuccess: () => {
-      toast.success("New account has been created.");
+      toast.success("Account updated");
       // This will refetch the all accounts, every time I create new account
+      // queryClient.invalidateQueries({ queryKey: ["account", { id }] }); // my not need to invalidate
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
+      // TODO: invalidate summary and transactions
     },
     onError: (err) => {
       toast.error(err.message);
-      console.error("err in creating acc : ", err.message)
+      console.error("error in editing acc : ", err.message);
     },
   });
 
   return mutation;
 };
-
-

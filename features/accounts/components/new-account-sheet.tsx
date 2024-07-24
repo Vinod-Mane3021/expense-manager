@@ -19,13 +19,11 @@ const NewAccountSheet = () => {
   const onSubmit = (values: AccountFormValues) => {
     console.log("onSubmit");
     console.log(values);
-    mutate(values,
-    //    {
-    //   onSuccess: () => {
-    //     onClose();
-    //   },
-    // }
-  );
+    mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (
@@ -43,9 +41,6 @@ const NewAccountSheet = () => {
           disabled={isPending}
           defaultValues={{ name: "" }}
         />
-        {isPending && <p>Loading...</p>}
-        <p>{error?.message}</p>
-        <p>status -- {status}</p>
       </SheetContent>
     </Sheet>
   );

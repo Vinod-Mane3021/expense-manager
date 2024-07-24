@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-type UseConfirmTypes = {
+export type UseConfirmTypes = {
   title?: string;
   message: string;
   confirmButtonLabel?: string;
