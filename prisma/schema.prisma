@@ -13,10 +13,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Accounts {
-  id      Int    @id @default(autoincrement())
-  plaidId Int? @unique
-  name    String @unique
-  userId  String
+  id       Int      @id @default(autoincrement())
+  plaidId  String?  @unique // used when we connect to our banck account
+  name     String   @unique
+  userId   String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model Categories {
+  id       Int      @id @default(autoincrement())
+  plaidId  String?  @unique
+  name     String   @unique
+  userId   String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }

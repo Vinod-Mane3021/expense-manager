@@ -23,8 +23,7 @@ const EditAccountSheet = () => {
   const deleteAccountMutation = useDeleteAccounts();
 
   const isQueryLoading = accountQuery.isLoading;
-  const isPending =
-    editAccountMutation.isPending || deleteAccountMutation.isPending;
+  const isPending = editAccountMutation.isPending || deleteAccountMutation.isPending;
 
   const [ConfirmationDialog, confirm] = useConfirm(deleteAccountDialogProps);
 

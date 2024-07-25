@@ -5,39 +5,35 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { accountNameSchema } from "@/validations/schema/accounts";
+import { categoryNameSchema } from "@/validations/schema/categories";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
-import { AccountFormValues, AccountFormProps } from "@/types/account";
+import { CategoryFormProps, CategoryFormValues } from "@/types/category";
 import { toast } from "sonner";
 
-const AccountForm = ({
+const CategoryForm = ({
   id,
   defaultValues,
   onSubmit,
   onDelete,
   disabled,
-}: AccountFormProps) => {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountNameSchema),
+}: CategoryFormProps) => {
+  const form = useForm<CategoryFormValues>({
+    resolver: zodResolver(categoryNameSchema),
     defaultValues: defaultValues,
   });
 
-  console.log("defaultValues ", defaultValues);
-
-  const handleSubmit = (values: AccountFormValues) => {
+  const handleSubmit = (values: CategoryFormValues) => {
     if (id && defaultValues?.name === values.name) {
       toast.error("You have not changed the name.");
       return;
     }
-    console.log("handleSubmit");
-    console.log(values);
     onSubmit(values);
   };
 
@@ -60,16 +56,16 @@ const AccountForm = ({
               <FormControl>
                 <Input
                   disabled={disabled}
-                  placeholder="e.g. Cash, Bank, Credit Card"
+                  placeholder="e.g. Food, Travel, etc."
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage/>
             </FormItem>
           )}
         />
         <Button type="submit" className="w-full" disabled={disabled}>
-          {id ? "Save Changes " : "Create Account"}
+          {id ? "Save Changes " : "Create Category"}
         </Button>
         {!!id && (
           <Button
@@ -80,7 +76,7 @@ const AccountForm = ({
             variant="outline"
           >
             <Trash style={{ marginRight: 5 }} className="size-4" />
-            Delete account
+            Delete category
           </Button>
         )}
       </form>
@@ -88,4 +84,4 @@ const AccountForm = ({
   );
 };
 
-export default AccountForm;
+export default CategoryForm;

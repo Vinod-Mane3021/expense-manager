@@ -11,33 +11,33 @@ import { NextResponse } from "next/server";
  * provided data and returns it.
  *
  */
-// const apiResponse = (
-//     c: Context,
-//     { success, status, statusCode, message, error, data }: ApiResponseType
-// ) => {
-//     // Constructing the response object with the provided data
-//     const response: ApiResponseType = {
-//         success,
-//         status,
-//         statusCode,
-//         message,
-//         error,
-//         data,
-//     };
-//     // Returning a NextResponse object with JSON data and status code
-//     return c.json(response, { status: statusCode });
-// };
-
-const apiResponse = (
-  c: Context,
-  {
-      options,
-    }: {
-        options: Object;
-    },
-    statusCode: StatusCode,̥̥
+export const apiResponse = (
+    c: Context,
+    { success, status, statusCode, message, error, data }: ApiResponseType
 ) => {
-  return c.json(options, statusCode);
+    // Constructing the response object with the provided data
+    const response: ApiResponseType = {
+        success,
+        status,
+        statusCode,
+        message,
+        error,
+        data,
+    };
+    // Returning a NextResponse object with JSON data and status code
+    return c.json(response, { status: statusCode });
 };
 
-export { apiResponse };
+// const apiResponse = (
+//   c: Context,
+//   {
+//       options,
+//     }: {
+//         options: Object;
+//     },
+//     statusCode: StatusCode,̥̥
+// ) => {
+//   return c.json(options, statusCode);
+// };
+
+// export { apiResponse };

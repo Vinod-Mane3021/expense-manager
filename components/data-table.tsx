@@ -36,9 +36,10 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { ChevronDown, Trash } from "lucide-react";
 import { useConfirm } from "@/hooks/use-confirm";
-import { deleteAccountDialogProps } from "@/constants/props";
+import { deleteAccountDialogProps, deleteCategoryDialogProps } from "@/constants/props";
 
 interface DataTableProps<TData, TValue> {
+  dataTableType: "account" | "category";
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterKey: string;
@@ -47,6 +48,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({
+  dataTableType,
   columns,
   data,
   filterKey,
@@ -79,13 +81,20 @@ export function DataTable<TData, TValue>({
 
   const selectedRow = table.getFilteredSelectedRowModel().rows;
   
-  const [ConfirmationDialog, confirm] = useConfirm({
+  const accountDialogProps = {
     ...deleteAccountDialogProps,
     confirmButtonLabel: selectedRow.length > 1 ? "Yes, delete account's" : "Yes, delete account",
-  });
+  }
+  const categoryDialogProps = {
+    ...deleteCategoryDialogProps,
+    confirmButtonLabel: selectedRow.length > 1 ? "Yes, delete categories" : "Yes, delete category",
+  }
+  const dialogProps = dataTableType == "account" ? accountDialogProps : categoryDialogProps;
+  
+  const [ConfirmationDialog, confirm] = useConfirm(dialogProps);
 
-  // This function is responsible for deleting users account
-  const handleDeleteAccount = async () => {
+  // This function is responsible for deleting users account or category
+  const handleDelete = async () => {
     const isConfirm = await confirm();
     if (isConfirm) {
       console.log("rows length -> ", selectedRow.length)
@@ -117,7 +126,7 @@ export function DataTable<TData, TValue>({
               // size="sm"
               variant="outline"
               className="font-normal text-red-400 hover:text-red-600"
-              onClick={handleDeleteAccount}
+              onClick={handleDelete}
             >
               <Trash className="size-4 mr-2" />
               Delete ({selectedRow.length})

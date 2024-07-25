@@ -5,14 +5,14 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import {
-  accountNameSchema,
-  deleteAccountSchema,
-  accountIdSchema,
-} from "@/validations/schema/accounts";
+  categoryNameSchema,
+  deleteCategorySchema,
+  categoryIdSchema,
+} from "@/validations/schema/categories";
 
 const app = new Hono()
 
-  // To get all accounts
+  // To get all categories
   .get("/", clerkMiddleware(), async (c) => {
     const auth = getAuth(c);
     if (!auth?.userId) {
@@ -22,21 +22,24 @@ const app = new Hono()
       );
     }
 
-    const data = await db.accounts.findMany({
+    const data = await db.categories.findMany({
       select: {
         id: true,
         name: true,
+      },
+      orderBy: {
+        updateAt: "desc",
       },
     });
 
     return c.json({ data });
   })
 
-  // to get account by id
+  // to get category by id
   .get(
     "/:id",
     clerkMiddleware(),
-    zValidator("param", accountIdSchema),
+    zValidator("param", categoryIdSchema),
     async (c) => {
       const auth = getAuth(c);
       if (!auth?.userId) {
@@ -54,7 +57,7 @@ const app = new Hono()
         );
       }
 
-      const data = await db.accounts.findUnique({
+      const data = await db.categories.findUnique({
         where: {
           userId: auth.userId,
           id: Number(id),
@@ -73,15 +76,14 @@ const app = new Hono()
     }
   )
 
-  // to create a new account
+  // to create a new category
   .post(
     "/create",
     clerkMiddleware(),
-    zValidator("json", accountNameSchema),
+    zValidator("json", categoryNameSchema),
     async (c) => {
       const auth = getAuth(c);
       if (!auth?.userId) {
-        console.log("un : ", ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE);
         return c.json(
           { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
           HttpStatusCode.UNAUTHORIZED
@@ -89,45 +91,46 @@ const app = new Hono()
       }
 
       const { name } = c.req.valid("json");
+
       if (!name) {
-        return c.json({ error: "Missing name." }, HttpStatusCode.BAD_REQUEST);
+        return c.json({ error: "Missing name" }, HttpStatusCode.BAD_REQUEST);
       }
 
       try {
-        const existingAccount = await db.accounts.findFirst({
+        const existingCategory = await db.categories.findFirst({
           where: {
             name,
             userId: auth.userId,
           },
         });
-        if (existingAccount) {
+        if (existingCategory) {
           return c.json(
-            { error: "Account with this name is already exist" },
+            { error: "Category with this name is already exist" },
             HttpStatusCode.CONFLICT
           );
         }
 
-        const account = await db.accounts.create({
+        const category = await db.categories.create({
           data: {
             name,
             userId: auth.userId,
           },
         });
-        return c.json({ account });
+        return c.json({ category });
       } catch (error) {
         return c.json(
-          { error: "Failed to create account." },
+          { error: "Failed to create category" },
           HttpStatusCode.INTERNAL_SERVER_ERROR
         );
       }
     }
   )
 
-  // to delete an existing account
+  // to delete an existing category
   .post(
     "/bulk-delete",
     clerkMiddleware(),
-    zValidator("json", deleteAccountSchema),
+    zValidator("json", deleteCategorySchema),
     async (c) => {
       const auth = getAuth(c);
       if (!auth?.userId) {
@@ -139,11 +142,9 @@ const app = new Hono()
 
       const { ids } = c.req.valid("json");
 
-      const userId = auth.userId;
-
-      const { count } = await db.accounts.deleteMany({
+      const { count } = await db.categories.deleteMany({
         where: {
-          userId: userId,
+          userId: auth.userId,
           id: {
             in: ids,
           },
@@ -154,12 +155,12 @@ const app = new Hono()
     }
   )
 
-  // to update the account name
+  // to update the category name
   .patch(
     "/:id",
     clerkMiddleware(),
-    zValidator("param", accountIdSchema),
-    zValidator("json", accountNameSchema),
+    zValidator("param", categoryIdSchema),
+    zValidator("json", categoryNameSchema),
     async (c) => {
       const auth = getAuth(c);
       if (!auth?.userId) {
@@ -185,11 +186,7 @@ const app = new Hono()
         );
       }
 
-      console.log("PRINT");
-      console.log("id - " + id + " " + " name - ", name);
-      console.log("userId ", auth.userId);
-
-      const data = await db.accounts.update({
+      const data = await db.categories.update({
         where: {
           userId: auth.userId,
           id: Number(id),

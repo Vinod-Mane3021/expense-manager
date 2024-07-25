@@ -6,3 +6,10 @@ export const deleteAccountDialogProps: UseConfirmTypes = {
   confirmButtonLabel: "Yes, delete account",
   type: "alert",
 };
+
+export const deleteCategoryDialogProps: UseConfirmTypes = {
+  title: "Are you absolutely sure?",
+  message: "This action cannot be undone. This will permanently delete your category from our servers.",
+  confirmButtonLabel: "Yes, delete category",
+  type: "alert",
+};
