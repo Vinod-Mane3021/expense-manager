@@ -27,6 +27,9 @@ const app = new Hono()
         id: true,
         name: true,
       },
+      orderBy: {
+        updateAt: "desc",
+      },
     });
 
     return c.json({ data });

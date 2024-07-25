@@ -20,6 +20,8 @@ model Accounts {
   userId   String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+
+  transactions Transactions[]
 }
 
 model Categories {
@@ -29,4 +31,21 @@ model Categories {
   userId   String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+
+  transactions Transactions[]
 }
+
+model Transactions {
+  id     Int      @id @default(autoincrement())
+  amount Int
+  payee  String
+  notes  String?
+  date   DateTime
+
+  accountId  Int  @map("account_id")
+  categoryId Int? @map("category_id")
+
+  account  Accounts    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category Categories? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+}
+
