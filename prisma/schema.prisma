@@ -47,5 +47,5 @@ model Transactions {
 
   account  Accounts    @relation(fields: [accountId], references: [id], onDelete: Cascade)
   category Categories? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
 }
-
