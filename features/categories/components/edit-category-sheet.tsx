@@ -11,16 +11,16 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useDeleteCategories } from "../api/use-delete-categories";
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteCategoryDialogProps } from "@/constants/props";
+import { useBulkDeleteCategories } from "../api/use-bulk-delete-categories";
 
 const EditCategorySheet = () => {
   const { isOpen, onClose, id } = useOpenCategory();
 
   const categoryQuery = useGetCategory(id);
   const editCategoryMutation = useEditCategory(id);
-  const deleteCategoriesMutation = useDeleteCategories();
+  const deleteCategoriesMutation = useBulkDeleteCategories();
 
   const isLoading = categoryQuery.isLoading;
   const isPending = editCategoryMutation.isPending || deleteCategoriesMutation.isPending;

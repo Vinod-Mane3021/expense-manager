@@ -11,7 +11,8 @@ import {
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteCategoryDialogProps } from "@/constants/props";
 import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
-import { useDeleteCategories } from "@/features/categories/api/use-delete-categories";
+import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
+
 
 type ActionsProps = {
   id: string;
@@ -19,7 +20,7 @@ type ActionsProps = {
 
 const Actions = ({ id }: ActionsProps) => {
   const { onOpen } = useOpenCategory();
-  const deleteCategoriesMutation = useDeleteCategories();
+  const deleteCategoriesMutation = useBulkDeleteCategories();
 
   const [ ConfirmationDialog, confirm ] = useConfirm(deleteCategoryDialogProps);
 

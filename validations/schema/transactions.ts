@@ -37,3 +37,6 @@ export const updateTransactionSchema = z.object({
   accountId: z.number().optional(),
   categoryId: z.number().optional(),
 });
+
+
+export const bulkCreateTransactionSchema = z.array(createTransactionSchema)

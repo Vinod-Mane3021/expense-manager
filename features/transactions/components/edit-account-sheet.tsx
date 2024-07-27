@@ -1,8 +1,9 @@
 import { Loader2 } from "lucide-react";
 import { AccountFormValues } from "@/types/account";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
+import { useGetAccount } from "@/features/accounts/api/use-get-account";
+import { useEditAccount } from "@/features/accounts/api/use-edit-account";
 import { useOpenAccount } from "../hooks/use-open-account";
-import { useGetAccount } from "../api/use-get-transaction";
-import { useEditAccount } from "../api/use-edit-transaction";
 import AccountForm from "./account-form";
 import {
   Sheet,
@@ -11,7 +12,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useDeleteAccounts } from "../api/use-delete-transactions";
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteAccountDialogProps } from "@/constants/props";
 
@@ -20,7 +20,7 @@ const EditAccountSheet = () => {
 
   const accountQuery = useGetAccount(id);
   const editAccountMutation = useEditAccount(id);
-  const deleteAccountMutation = useDeleteAccounts();
+  const deleteAccountMutation = useBulkDeleteAccounts();
 
   const isQueryLoading = accountQuery.isLoading;
   const isPending = editAccountMutation.isPending || deleteAccountMutation.isPending;

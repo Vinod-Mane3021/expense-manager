@@ -12,13 +12,13 @@ import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { columns } from "./columns";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
-import { useDeleteCategories } from "@/features/categories/api/use-delete-categories";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { CategoryResponseType } from "@/types/category";
+import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
 
 const CategoriesPage = () => {
   const newCategory = useNewCategory();
-  const deleteCategories = useDeleteCategories();
+  const deleteCategories = useBulkDeleteCategories();
   const categoryQuery = useGetCategories();
   const categories: CategoryResponseType[] = categoryQuery.data || [];
 

@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/sheet";
 import AccountForm from "./account-form";
 import { AccountFormValues } from "@/types/account";
-import { toast } from "sonner";
 import { useCreateAccount } from "../api/use-create-account";
 
 const NewAccountSheet = () => {

@@ -11,14 +11,14 @@ import {
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
-import { useDeleteAccounts } from "@/features/accounts/api/use-delete-accounts";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { AccountResponseType } from "@/types/account";
 import { columns } from "./columns";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
 
 const AccountsPage = () => {
   const newAccount = useNewAccount();
-  const deleteAccounts = useDeleteAccounts();
+  const deleteAccounts = useBulkDeleteAccounts();
   const accountQuery = useGetAccounts();
   const accounts: AccountResponseType[] = accountQuery.data || [];
 

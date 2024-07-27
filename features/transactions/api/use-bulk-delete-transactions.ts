@@ -12,7 +12,7 @@ type RequestType = InferRequestType<
   (typeof client.api.transactions)["bulk-delete"]["$post"]
 >["json"];
 
-export const useDeleteTransactions = () => {
+export const useBulkDeleteTransactions = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({

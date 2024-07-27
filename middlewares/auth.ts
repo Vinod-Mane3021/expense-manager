@@ -3,7 +3,7 @@ import { ResponseMessage } from "@/constants/response-messages";
 import { getAuth } from "@hono/clerk-auth";
 import { Context, Next } from "hono";
 
-export const authMiddleware = async (c: Context, next: Next) => {
+export const authorizeUserMiddleware = async (c: Context, next: Next) => {
   const auth = getAuth(c);
   if (!auth?.userId) {
     return c.json(

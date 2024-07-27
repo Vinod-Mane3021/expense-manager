@@ -2,7 +2,6 @@
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-import { useDeleteAccounts } from "@/features/accounts/api/use-delete-accounts";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteAccountDialogProps } from "@/constants/props";
+import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
 
 type ActionsProps = {
   id: string;
@@ -19,7 +19,7 @@ type ActionsProps = {
 
 const Actions = ({ id }: ActionsProps) => {
   const { onOpen } = useOpenAccount();
-  const deleteAccountMutation = useDeleteAccounts();
+  const deleteAccountMutation = useBulkDeleteAccounts();
 
   const [ ConfirmationDialog, confirm ] = useConfirm(deleteAccountDialogProps);
 

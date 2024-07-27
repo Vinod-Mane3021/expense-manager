@@ -11,16 +11,16 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { useDeleteAccounts } from "../api/use-delete-accounts";
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteAccountDialogProps } from "@/constants/props";
+import { useBulkDeleteAccounts } from "../api/use-bulk-delete-accounts";
 
 const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();
 
   const accountQuery = useGetAccount(id);
   const editAccountMutation = useEditAccount(id);
-  const deleteAccountMutation = useDeleteAccounts();
+  const deleteAccountMutation = useBulkDeleteAccounts();
 
   const isQueryLoading = accountQuery.isLoading;
   const isPending = editAccountMutation.isPending || deleteAccountMutation.isPending;
