@@ -1,4 +1,4 @@
-import { useNewAccount } from "../hooks/use-new-account";
+import { useNewAccount } from "../hooks/use-new-transaction";
 import {
   Sheet,
   SheetContent,
