@@ -1,7 +1,7 @@
 import { subDays, parse } from "date-fns";
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { db } from "@/lib/db";
-import { clerkMiddleware } from "@hono/clerk-auth";
+import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import {
@@ -12,7 +12,7 @@ import {
   updateTransactionSchema,
 } from "@/validations/schema/transactions";
 import { authMiddleware } from "@/middlewares/auth";
-
+import { ResponseMessage } from "@/constants/response-messages";
 
 const app = new Hono()
 
@@ -116,15 +116,23 @@ const app = new Hono()
   // to create a new transaction
   .post(
     "/create",
-    // clerkMiddleware(),
-    // authMiddleware,
+    clerkMiddleware(),
+    authMiddleware,
     zValidator("json", createTransactionSchema),
     async (c) => {
+
       const values = c.req.valid("json");
 
       const data = await db.transactions.create({
         data: { ...values, date: new Date() },
       });
+
+      if (!data) {
+        return c.json(
+          { error: "Failed to create transaction" },
+          HttpStatusCode.INTERNAL_SERVER_ERROR
+        );
+      }
 
       return c.json({ data });
     }
@@ -162,7 +170,6 @@ const app = new Hono()
     zValidator("param", transactionIdSchema),
     zValidator("json", updateTransactionSchema),
     async (c) => {
-
       const { id } = c.req.valid("param");
       if (!id) {
         return c.json(
@@ -185,8 +192,8 @@ const app = new Hono()
           date: values.date ? new Date(values.date) : undefined,
         },
         select: {
-          id: true
-        }
+          id: true,
+        },
       });
 
       if (!data) {
