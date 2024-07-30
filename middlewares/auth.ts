@@ -4,6 +4,9 @@ import { getAuth } from "@hono/clerk-auth";
 import { Context, Next } from "hono";
 
 export const authorizeUserMiddleware = async (c: Context, next: Next) => {
+
+  console.log("Validation failed. Please check your input data.")
+
   const auth = getAuth(c);
   if (!auth?.userId) {
     return c.json(

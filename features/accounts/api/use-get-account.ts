@@ -1,13 +1,14 @@
+import { db } from "@/lib/db";
 import { client } from "@/lib/hono";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetAccount = (id?: string) => {
+export const useGetAccount = (id?: number) => {
   const query = useQuery({
     enabled: !!id,
     queryKey: ["account", { id }],
     queryFn: async () => {
       const response = await client.api.accounts[":id"].$get({
-        param: { id },
+        param: { id: String(id) },
       });
 
       if (response.ok) {

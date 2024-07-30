@@ -3,8 +3,7 @@ import { AccountFormValues } from "@/types/account";
 import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
 import { useGetAccount } from "@/features/accounts/api/use-get-account";
 import { useEditAccount } from "@/features/accounts/api/use-edit-account";
-import { useOpenAccount } from "../hooks/use-open-transaction";
-import AccountForm from "./account-form";
+import AccountForm from "./transaction-form";
 import {
   Sheet,
   SheetContent,
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteAccountDialogProps } from "@/constants/props";
+import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
 
 const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();

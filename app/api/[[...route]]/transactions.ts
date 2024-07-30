@@ -14,8 +14,11 @@ import {
 } from "@/validations/schema/transactions";
 import { authorizeUserMiddleware } from "@/middlewares/auth";
 import { ResponseMessage } from "@/constants/response-messages";
+import { zodErrorHandlerMiddleware } from "@/middlewares/zod-error-handler";
 
 const app = new Hono()
+
+  // .use(zodErrorHandlerMiddleware)
 
   // To get all transactions
   .get(
@@ -24,20 +27,32 @@ const app = new Hono()
     clerkMiddleware(),
     authorizeUserMiddleware,
     async (c) => {
-      const { from, to, accountId } = c.req.valid("query");
+      console.log("Validation failed. Please check your input data.");
+
+      const { from, to, accountId, page, pageSize } = c.req.valid("query");
 
       const defaultTo = new Date();
       const defaultFrom = subDays(defaultTo, 30);
 
+      // const startDate = from
+      //   ? parse(from, "yyyy-MM-dd", new Date())
+      //   : defaultFrom;
+      // const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+
       const startDate = from
         ? parse(from, "yyyy-MM-dd", new Date())
-        : defaultFrom;
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+        : undefined;
+      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : undefined;
 
       try {
+        const takePageSize = Number(pageSize);
+        const skipPages = (Number(page) - 1) * takePageSize;
+
         const data = await db.transactions.findMany({
+          skip: skipPages, // Skip the items of previous pages
+          take: takePageSize, // Take the number of items for the current page
           where: {
-            accountId: Number(accountId),
+            accountId: accountId ? Number(accountId) : undefined,
             account: {
               userId: c.auth.userId,
             },
@@ -78,6 +93,7 @@ const app = new Hono()
         }
         return c.json({ data });
       } catch (error) {
+        console.error("Error ", error)
         return c.json(
           { error: "Failed to get transactions" },
           HttpStatusCode.INTERNAL_SERVER_ERROR
@@ -144,7 +160,10 @@ const app = new Hono()
 
       try {
         const data = await db.transactions.create({
-          data: { ...values, date: new Date(values.date) },
+          data: {
+            ...values,
+            date: new Date(values.date),
+          },
         });
 
         return c.json({ data });

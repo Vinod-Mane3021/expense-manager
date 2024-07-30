@@ -12,7 +12,7 @@ type RequestType = InferRequestType<
   (typeof client.api.transactions)["create"]["$post"]
 >["json"];
 
-export const useCreateTransactions = () => {
+export const useCreateTransaction = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({

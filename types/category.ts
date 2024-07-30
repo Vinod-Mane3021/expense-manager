@@ -7,7 +7,7 @@ import { categoryNameSchema } from "@/validations/schema/categories";
 export type CategoryFormValues = z.input<typeof categoryNameSchema>;
 
 export type CategoryFormProps = {
-  id?: string;
+  id?: number;
   defaultValues?: CategoryFormValues;
   onSubmit: (value: CategoryFormValues) => void;
   onDelete?: () => void;

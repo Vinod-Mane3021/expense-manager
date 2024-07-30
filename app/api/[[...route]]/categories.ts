@@ -9,20 +9,16 @@ import {
   deleteCategorySchema,
   categoryIdSchema,
 } from "@/validations/schema/categories";
+import { authorizeUserMiddleware } from "@/middlewares/auth";
 
 const app = new Hono()
 
   // To get all categories
-  .get("/", clerkMiddleware(), async (c) => {
-    const auth = getAuth(c);
-    if (!auth?.userId) {
-      return c.json(
-        { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-        HttpStatusCode.UNAUTHORIZED
-      );
-    }
-
+  .get("/", clerkMiddleware(), authorizeUserMiddleware, async (c) => {
     const data = await db.categories.findMany({
+      where: {
+        userId: c.auth.userId,
+      },
       select: {
         id: true,
         name: true,
@@ -39,15 +35,9 @@ const app = new Hono()
   .get(
     "/:id",
     clerkMiddleware(),
+    authorizeUserMiddleware,
     zValidator("param", categoryIdSchema),
     async (c) => {
-      const auth = getAuth(c);
-      if (!auth?.userId) {
-        return c.json(
-          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-          HttpStatusCode.UNAUTHORIZED
-        );
-      }
 
       const { id } = c.req.valid("param");
       if (!id) {
@@ -59,7 +49,7 @@ const app = new Hono()
 
       const data = await db.categories.findUnique({
         where: {
-          userId: auth.userId,
+          userId: c.auth.userId,
           id: Number(id),
         },
         select: {
@@ -80,15 +70,9 @@ const app = new Hono()
   .post(
     "/create",
     clerkMiddleware(),
+    authorizeUserMiddleware,
     zValidator("json", categoryNameSchema),
     async (c) => {
-      const auth = getAuth(c);
-      if (!auth?.userId) {
-        return c.json(
-          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-          HttpStatusCode.UNAUTHORIZED
-        );
-      }
 
       const { name } = c.req.valid("json");
 
@@ -100,7 +84,7 @@ const app = new Hono()
         const existingCategory = await db.categories.findFirst({
           where: {
             name,
-            userId: auth.userId,
+            userId: c.auth.userId,
           },
         });
         if (existingCategory) {
@@ -113,7 +97,7 @@ const app = new Hono()
         const category = await db.categories.create({
           data: {
             name,
-            userId: auth.userId,
+            userId: c.auth.userId!,
           },
         });
         return c.json({ category });

@@ -12,13 +12,13 @@ type RequestType = InferRequestType<
   (typeof client.api.accounts)[":id"]["$patch"]
 >["json"];
 
-export const useEditAccount = (id?: string) => {
+export const useEditAccount = (id?: number) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async (json) => {
       const response = await client.api.accounts[":id"].$patch({
-        param: { id },
+        param: { id: Number(id) },
         json,
       });
       if (response.status == HttpStatusCode.UNAUTHORIZED) {

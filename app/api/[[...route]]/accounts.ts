@@ -9,20 +9,17 @@ import {
   deleteAccountSchema,
   accountIdSchema,
 } from "@/validations/schema/accounts";
+import { authorizeUserMiddleware } from "@/middlewares/auth";
 
 const app = new Hono()
 
   // To get all accounts
-  .get("/", clerkMiddleware(), async (c) => {
-    const auth = getAuth(c);
-    if (!auth?.userId) {
-      return c.json(
-        { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-        HttpStatusCode.UNAUTHORIZED
-      );
-    }
+  .get("/", clerkMiddleware(), authorizeUserMiddleware, async (c) => {
 
     const data = await db.accounts.findMany({
+      where: {
+        userId: c.auth.userId,
+      },
       select: {
         id: true,
         name: true,
@@ -39,15 +36,9 @@ const app = new Hono()
   .get(
     "/:id",
     clerkMiddleware(),
+    authorizeUserMiddleware,
     zValidator("param", accountIdSchema),
     async (c) => {
-      const auth = getAuth(c);
-      if (!auth?.userId) {
-        return c.json(
-          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-          HttpStatusCode.UNAUTHORIZED
-        );
-      }
 
       const { id } = c.req.valid("param");
       if (!id) {
@@ -59,7 +50,7 @@ const app = new Hono()
 
       const data = await db.accounts.findUnique({
         where: {
-          userId: auth.userId,
+          userId: c.auth.userId,
           id: Number(id),
         },
         select: {
@@ -80,17 +71,9 @@ const app = new Hono()
   .post(
     "/create",
     clerkMiddleware(),
+    authorizeUserMiddleware,
     zValidator("json", accountNameSchema),
     async (c) => {
-      const auth = getAuth(c);
-      if (!auth?.userId) {
-        console.log("un : ", ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE);
-        return c.json(
-          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-          HttpStatusCode.UNAUTHORIZED
-        );
-      }
-
       const { name } = c.req.valid("json");
       if (!name) {
         return c.json({ error: "Missing name." }, HttpStatusCode.BAD_REQUEST);
@@ -100,7 +83,7 @@ const app = new Hono()
         const existingAccount = await db.accounts.findFirst({
           where: {
             name,
-            userId: auth.userId,
+            userId: c.auth.userId,
           },
         });
         if (existingAccount) {
@@ -113,7 +96,7 @@ const app = new Hono()
         const account = await db.accounts.create({
           data: {
             name,
-            userId: auth.userId,
+            userId: c.auth.userId!,
           },
         });
         return c.json({ account });
@@ -130,23 +113,15 @@ const app = new Hono()
   .post(
     "/bulk-delete",
     clerkMiddleware(),
+    authorizeUserMiddleware,
     zValidator("json", deleteAccountSchema),
     async (c) => {
-      const auth = getAuth(c);
-      if (!auth?.userId) {
-        return c.json(
-          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-          HttpStatusCode.UNAUTHORIZED
-        );
-      }
 
       const { ids } = c.req.valid("json");
 
-      const userId = auth.userId;
-
       const { count } = await db.accounts.deleteMany({
         where: {
-          userId: userId,
+          userId: c.auth.userId,
           id: {
             in: ids,
           },
@@ -161,16 +136,10 @@ const app = new Hono()
   .patch(
     "/:id",
     clerkMiddleware(),
+    authorizeUserMiddleware,
     zValidator("param", accountIdSchema),
     zValidator("json", accountNameSchema),
     async (c) => {
-      const auth = getAuth(c);
-      if (!auth?.userId) {
-        return c.json(
-          { error: ResponseMessage.UNAUTHORIZED_TO_ACCESS_RESOURCE },
-          HttpStatusCode.UNAUTHORIZED
-        );
-      }
 
       const { id } = c.req.valid("param");
       if (!id) {
@@ -188,13 +157,9 @@ const app = new Hono()
         );
       }
 
-      console.log("PRINT");
-      console.log("id - " + id + " " + " name - ", name);
-      console.log("userId ", auth.userId);
-
       const data = await db.accounts.update({
         where: {
-          userId: auth.userId,
+          userId: c.auth.userId,
           id: Number(id),
         },
         data: {

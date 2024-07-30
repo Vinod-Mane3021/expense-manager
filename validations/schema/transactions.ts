@@ -4,6 +4,8 @@ export const getTransactionsSchema = z.object({
   from: z.string().optional(),
   to: z.string().optional(),
   accountId: z.string().optional(),
+  page: z.string(),
+  pageSize: z.string(),
 });
 
 export const transactionIdSchema = z.object({
@@ -19,18 +21,16 @@ export const deleteTransactionSchema = z.object({
 });
 
 export const createTransactionSchema = z.object({
-  amount: z.number().gt(0, { message: "amount mush be more than 0" }),
+  amount: z.string(),
   payee: z.string(),
-  notes: z.string().optional(),
-  date: z
-    .string()
-    .refine((val) => new Date(val), { message: "Invalid date format" }),
+  notes: z.string().nullable().optional(),
+  date: z.coerce.date(),
   accountId: z.number(),
-  categoryId: z.number(),
+  categoryId: z.number().nullable().optional(),
 });
 
 export const updateTransactionSchema = z.object({
-  amount: z.number().optional(),
+  amount: z.string().optional(),
   payee: z.string().optional(),
   notes: z.string().optional(),
   date: z.string().optional(),
@@ -38,5 +38,6 @@ export const updateTransactionSchema = z.object({
   categoryId: z.number().optional(),
 });
 
+export const transactionApiSchema = createTransactionSchema;
 
 export const bulkCreateTransactionSchema = z.array(createTransactionSchema)
