@@ -33,7 +33,7 @@ const Actions = ({ id }: ActionsProps) => {
   const handleDeleteCategory = async () => {
     const isConfirm = await confirm()
     if(isConfirm) {
-      deleteCategoriesMutation.mutate({ids: [Number(id)]})
+      deleteCategoriesMutation.mutate({ids: [id]})
     }
   }
 

@@ -5,7 +5,7 @@ export const accountNameSchema = z.object({
 });
 
 export const deleteAccountSchema = z.object({
-  ids: z.array(z.number()),
+  ids: z.array(z.string()),
 });
 
 export const accountIdSchema = z.object({

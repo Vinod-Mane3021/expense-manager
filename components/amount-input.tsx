@@ -7,7 +7,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
 
 type Props = {
   value: string;
@@ -22,9 +21,11 @@ const AmountInput = ({ value, onChange, placeholder, disabled }: Props) => {
   const isExpense = parsedValue < 0;
 
   const onReverseValue = () => {
-    if (!value) return;
-    const newValue = parseFloat(value) * -1;
-    onChange(String(newValue));
+    if (!value) {
+      return;
+    };
+    const newValue = String(parseFloat(value) * -1);
+    onChange(newValue);
   };
 
   return (

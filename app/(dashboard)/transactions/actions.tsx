@@ -1,7 +1,6 @@
 "use client";
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,35 +9,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useConfirm } from "@/hooks/use-confirm";
-import { deleteAccountDialogProps } from "@/constants/props";
-import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
+import { deleteTransactionDialogProps } from "@/constants/props";
+import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
+import { useOpenTransaction } from "@/features/transactions/hooks/use-open-transaction";
 
 type ActionsProps = {
   id: string;
 };
 
 const Actions = ({ id }: ActionsProps) => {
-  const { onOpen } = useOpenAccount();
-  const deleteAccountMutation = useBulkDeleteAccounts();
+  const { onOpen } = useOpenTransaction();
+  const deleteTransactionsMutation = useBulkDeleteTransactions();
 
-  const [ ConfirmationDialog, confirm ] = useConfirm(deleteAccountDialogProps);
+  const [ConfirmationDialog, confirm] = useConfirm(deleteTransactionDialogProps);
 
-  const isPending = deleteAccountMutation.isPending
+  const isPending = deleteTransactionsMutation.isPending;
 
   const handleOpenDrawer = () => {
-    onOpen(id)
-  }
+    onOpen(id);
+  };
 
   const handleDeleteAccount = async () => {
-    const isConfirm = await confirm()
-    if(isConfirm) {
-      deleteAccountMutation.mutate({ids: [Number(id)]})
+    const isConfirm = await confirm();
+    console.log("isConfirm ", isConfirm, id);
+    if (isConfirm) {
+      const ids: string[] = [id];
+      deleteTransactionsMutation.mutate({ ids });
     }
-  }
+  };
 
   return (
     <>
-      <ConfirmationDialog/>
+      <ConfirmationDialog />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="size-8 p-0">

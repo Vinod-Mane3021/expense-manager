@@ -8,13 +8,13 @@ import { toast } from "sonner";
 type ResponseType = InferResponseType<(typeof client.api.categories)[":id"]["$patch"]>;
 type RequestType = InferRequestType<(typeof client.api.categories)[":id"]["$patch"]>["json"];
 
-export const useEditCategory = (id?: number) => {
+export const useEditCategory = (id?: string) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
     mutationFn: async (json) => {
       const response = await client.api.categories[":id"].$patch({
-        param: { id: String(id) },
+        param: { id },
         json,
       });
       if (response.status == HttpStatusCode.UNAUTHORIZED) {

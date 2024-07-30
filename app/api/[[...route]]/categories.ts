@@ -50,7 +50,7 @@ const app = new Hono()
       const data = await db.categories.findUnique({
         where: {
           userId: c.auth.userId,
-          id: Number(id),
+          id,
         },
         select: {
           id: true,
@@ -173,7 +173,7 @@ const app = new Hono()
       const data = await db.categories.update({
         where: {
           userId: auth.userId,
-          id: Number(id),
+          id,
         },
         data: {
           name,

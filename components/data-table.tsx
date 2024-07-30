@@ -37,9 +37,10 @@ import { useState } from "react";
 import { ChevronDown, Trash } from "lucide-react";
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteAccountDialogProps, deleteCategoryDialogProps } from "@/constants/props";
+import { TransactionResponseType } from "@/types/transaction";
 
 interface DataTableProps<TData, TValue> {
-  dataTableType: "account" | "category";
+  dataTableType: "account" | "category" | "transaction";
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterKey: string;
@@ -89,6 +90,7 @@ export function DataTable<TData, TValue>({
     ...deleteCategoryDialogProps,
     confirmButtonLabel: selectedRow.length > 1 ? "Yes, delete categories" : "Yes, delete category",
   }
+
   const dialogProps = dataTableType == "account" ? accountDialogProps : categoryDialogProps;
   
   const [ConfirmationDialog, confirm] = useConfirm(dialogProps);

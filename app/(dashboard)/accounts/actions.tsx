@@ -32,7 +32,7 @@ const Actions = ({ id }: ActionsProps) => {
   const handleDeleteAccount = async () => {
     const isConfirm = await confirm()
     if(isConfirm) {
-      deleteAccountMutation.mutate({ids: [Number(id)]})
+      deleteAccountMutation.mutate({ids: [id]})
     }
   }
 

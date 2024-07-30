@@ -3,7 +3,6 @@ import { handle } from "hono/vercel";
 import accounts from "./accounts";
 import categories from "./categories";
 import transactions from "./transactions";
-import { zodErrorHandlerMiddleware } from "@/middlewares/zod-error-handler";
 
 // export const runtime = 'edge'
 

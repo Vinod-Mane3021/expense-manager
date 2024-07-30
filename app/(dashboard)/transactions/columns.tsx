@@ -2,12 +2,15 @@
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { AccountResponseType } from "@/types/account"
+import { format } from "date-fns"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import Actions from "./actions"
+import { TransactionResponseType } from "@/types/transaction"
+import { convertAmountFromMiliunit, formatCurrency } from "@/lib/converters"
+import { Badge } from "@/components/ui/badge"
 
-export const columns: ColumnDef<AccountResponseType>[] = [
+export const columns: ColumnDef<TransactionResponseType>[] = [
   // for selecting
   {
     id: "select",
@@ -32,23 +35,122 @@ export const columns: ColumnDef<AccountResponseType>[] = [
     enableHiding: false,
   },
 
-  // name col
+  // date col
   {
-    accessorKey: "name",
+    accessorKey: "date",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const date = row.getValue("date") as Date
+      return (
+        <span>
+          {format(date, "dd MMMM, yyyy")}
+        </span>
+      )
+    }
+  },
+
+  // category col
+  {
+    accessorKey: "category",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Category
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <span>
+          {row.original.category?.name}
+        </span>
+      )
+    }
+  },
+
+  // payee col
+  {
+    accessorKey: "payee",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Payee
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
   },
+
+   // amount col
+   {
+    accessorKey: "amount",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Amount
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const amount = parseFloat(String(row.original.amount))
+      const formatted = formatCurrency(amount)
+      return (
+        <Badge
+          variant={amount < 0 ? "destructive1" : "primary"}
+          className="text-xs font-medium px-3.5 py-2 rounded-full"
+        >
+          {formatted}
+        </Badge>
+      )
+    }
+  },
+
+  // account col
+  {
+    accessorKey: "account",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Account
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <span>
+          {row.original.account?.name}
+        </span>
+      )
+    }
+  },
+
   {
     id: "actions",
-    cell: ({ row }) => <Actions id={String(row.original.id)}/>
+    cell: ({ row }) => <Actions id={row.original.id}/>
   }
 ]

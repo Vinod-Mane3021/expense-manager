@@ -49,6 +49,6 @@ export const columns: ColumnDef<CategoryResponseType>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <Actions id={String(row.original.id)}/>
+    cell: ({ row }) => <Actions id={row.original.id}/>
   }
 ]

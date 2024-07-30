@@ -7,7 +7,7 @@ import { HttpStatusCode } from "@/constants/http-status-code";
 export type AccountFormValues = z.input<typeof accountNameSchema>;
 
 export type AccountFormProps = {
-  id?: number;
+  id?: string;
   defaultValues?: AccountFormValues;
   onSubmit: (value: AccountFormValues) => void;
   onDelete?: () => void;

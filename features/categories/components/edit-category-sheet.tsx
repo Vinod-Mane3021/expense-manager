@@ -40,7 +40,7 @@ const EditCategorySheet = () => {
 
     if (isConfirm) {
       deleteCategoriesMutation.mutate(
-        { ids: [Number(id)] },
+        { ids: [id!] },
         {
           onSuccess: () => {
             onClose();

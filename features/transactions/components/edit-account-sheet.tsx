@@ -40,7 +40,7 @@ const EditAccountSheet = () => {
 
     if (isConfirm) {
       deleteAccountMutation.mutate(
-        { ids: [Number(id)] },
+        { ids: [id!] },
         {
           onSuccess: () => {
             onClose();

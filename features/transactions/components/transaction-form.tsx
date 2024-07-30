@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Trash } from "lucide-react";
-import { accountNameSchema } from "@/validations/schema/accounts";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
@@ -21,8 +20,8 @@ import {
   TransactionFormValues,
 } from "@/types/transaction";
 import AmountInput from "@/components/amount-input";
-import { createTransactionSchema } from "@/validations/schema/transactions";
-import { convertAmountFromMiliunit, convertAmountToMiliunit } from "@/lib/converters";
+import { createTransactionFormSchema } from "@/validations/schema/transactions";
+import { convertAmountToMiliunit } from "@/lib/converters";
 
 const TransactionForm = ({
   id,
@@ -36,24 +35,22 @@ const TransactionForm = ({
   onCreateAccount,
 }: TransactionFormProps) => {
   const form = useForm<TransactionFormValues>({
-    resolver: zodResolver(createTransactionSchema),
+    resolver: zodResolver(createTransactionFormSchema),
     defaultValues: defaultValues,
   });
 
   const handleSubmit = (values: TransactionFormValues) => {
-
     const amount = parseFloat(values.amount);
-    const amountInMiliunits = convertAmountToMiliunit(amount)
 
     onSubmit({
       ...values,
-      amount: String(amountInMiliunits)
-    })
+      amount,
+    });
   };
 
   const onError = (errors: any) => {
     console.error("Form validation errors: ", errors);
-  };  
+  };
 
   const handleDelete = () => {
     onDelete?.();
@@ -92,7 +89,7 @@ const TransactionForm = ({
                   placeholder="Select an account"
                   options={accountOptions}
                   onCreate={onCreateAccount}
-                  value={String(field.value)}
+                  value={field.value}
                   onChange={field.onChange}
                   disabled={disabled}
                 />
@@ -112,7 +109,7 @@ const TransactionForm = ({
                   placeholder="Select an category"
                   options={categoryOptions}
                   onCreate={onCreateCategory}
-                  value={String(field.value)}
+                  value={field.value}
                   onChange={field.onChange}
                   disabled={disabled}
                 />
@@ -164,7 +161,7 @@ const TransactionForm = ({
             <FormItem>
               <FormLabel>Note</FormLabel>
               <FormControl>
-                <Textarea 
+                <Textarea
                   {...field}
                   value={field.value ?? ""}
                   placeholder="Optional note"
@@ -195,6 +192,3 @@ const TransactionForm = ({
 };
 
 export default TransactionForm;
-
-
-

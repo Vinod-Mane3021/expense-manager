@@ -4,8 +4,6 @@ export const getTransactionsSchema = z.object({
   from: z.string().optional(),
   to: z.string().optional(),
   accountId: z.string().optional(),
-  page: z.string(),
-  pageSize: z.string(),
 });
 
 export const transactionIdSchema = z.object({
@@ -17,25 +15,34 @@ export const transactionsNameSchema = z.object({
 });
 
 export const deleteTransactionSchema = z.object({
-  ids: z.array(z.number()),
+  ids: z.array(z.string()),
 });
 
 export const createTransactionSchema = z.object({
+  amount: z.number(),
+  payee: z.string(),
+  notes: z.string().nullable().optional(),
+  date: z.coerce.date(),
+  accountId: z.string(),
+  categoryId: z.string().nullable().optional(),
+});
+
+export const createTransactionFormSchema = z.object({
   amount: z.string(),
   payee: z.string(),
   notes: z.string().nullable().optional(),
   date: z.coerce.date(),
-  accountId: z.number(),
-  categoryId: z.number().nullable().optional(),
+  accountId: z.string(),
+  categoryId: z.string().nullable().optional(),
 });
 
 export const updateTransactionSchema = z.object({
-  amount: z.string().optional(),
+  amount: z.number().optional(),
   payee: z.string().optional(),
   notes: z.string().optional(),
   date: z.string().optional(),
-  accountId: z.number().optional(),
-  categoryId: z.number().optional(),
+  accountId: z.string().optional(),
+  categoryId: z.string().optional(),
 });
 
 export const transactionApiSchema = createTransactionSchema;

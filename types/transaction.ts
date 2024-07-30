@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+  createTransactionFormSchema,
   createTransactionSchema,
   transactionApiSchema,
   transactionsNameSchema,
@@ -8,9 +9,9 @@ import { InferResponseType } from "hono";
 import { client } from "@/lib/hono";
 import { HttpStatusCode } from "@/constants/http-status-code";
 
-export type TransactionFormValues = z.input<typeof createTransactionSchema>;
+export type TransactionFormValues = z.input<typeof createTransactionFormSchema>;
 
-export type TransactionApiFormValues = z.input<typeof transactionApiSchema>;
+export type TransactionApiFormValues = z.input<typeof createTransactionSchema>;
 
 export type TransactionResponseType = InferResponseType<
   typeof client.api.transactions.$get,
@@ -18,18 +19,18 @@ export type TransactionResponseType = InferResponseType<
 >["data"][0];
 
 export type LabelValueType = {
-    label: string;
-    value: string | number;
-}
+  label: string;
+  value: string;
+};
 
 export type TransactionFormProps = {
-    id?: number;
-    defaultValues?: TransactionFormValues;
-    onSubmit: (value: TransactionApiFormValues) => void;
-    onDelete?: () => void;
-    disabled?: boolean;
-    categoryOptions: LabelValueType[];
-    accountOptions: LabelValueType[];
-    onCreateCategory: (name: string) => void;
-    onCreateAccount: (name: string) => void;
-  };
+  id?: string;
+  defaultValues?: TransactionFormValues;
+  onSubmit: (value: TransactionApiFormValues) => void;
+  onDelete?: () => void;
+  disabled?: boolean;
+  categoryOptions: LabelValueType[];
+  accountOptions: LabelValueType[];
+  onCreateCategory: (name: string) => void;
+  onCreateAccount: (name: string) => void;
+};

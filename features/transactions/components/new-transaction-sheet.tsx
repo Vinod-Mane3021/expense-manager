@@ -5,7 +5,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { TransactionFormValues } from "@/types/transaction";
+import { TransactionApiFormValues } from "@/types/transaction";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
 import { useCreateCategory } from "@/features/categories/api/use-create-category";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
@@ -51,7 +51,7 @@ const NewTransactionSheet = () => {
     accountMutation.isPending;
   const isLoading = categoriesQuery.isLoading || accountsQuery.isLoading;
 
-  const onSubmit = (values: TransactionFormValues) => {
+  const onSubmit = (values: TransactionApiFormValues) => {
     createTransactionMutation.mutate(values, {
       onSuccess: () => {
         onClose();

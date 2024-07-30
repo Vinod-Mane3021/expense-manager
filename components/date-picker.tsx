@@ -26,7 +26,7 @@ const DatePicker = ({ value, onChange, disabled }: Props) => {
           )}
         >
           <CalendarIcon className="size-4 mr-2 -ml-[7px]" />
-          {value ? format(value, "PPP") : <span>Pick a date</span>}
+          {value ? format(value, "dd MMMM, yyyy") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -36,6 +36,7 @@ const DatePicker = ({ value, onChange, disabled }: Props) => {
           onSelect={onChange}
           disabled={disabled}
           initialFocus
+          toDate={new Date()}   // todays date
         />
       </PopoverContent>
     </Popover>

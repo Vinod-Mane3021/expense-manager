@@ -1,7 +1,7 @@
 import { subDays, parse } from "date-fns";
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { db } from "@/lib/db";
-import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
+import { clerkMiddleware } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import {
@@ -13,8 +13,7 @@ import {
   updateTransactionSchema,
 } from "@/validations/schema/transactions";
 import { authorizeUserMiddleware } from "@/middlewares/auth";
-import { ResponseMessage } from "@/constants/response-messages";
-import { zodErrorHandlerMiddleware } from "@/middlewares/zod-error-handler";
+import { convertAmountFromMiliunit, convertAmountToMiliunit } from "@/lib/converters";
 
 const app = new Hono()
 
@@ -27,32 +26,31 @@ const app = new Hono()
     clerkMiddleware(),
     authorizeUserMiddleware,
     async (c) => {
-      console.log("Validation failed. Please check your input data.");
 
-      const { from, to, accountId, page, pageSize } = c.req.valid("query");
+      const { from, to, accountId } = c.req.valid("query");
 
       const defaultTo = new Date();
       const defaultFrom = subDays(defaultTo, 30);
 
-      // const startDate = from
-      //   ? parse(from, "yyyy-MM-dd", new Date())
-      //   : defaultFrom;
-      // const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
-
       const startDate = from
         ? parse(from, "yyyy-MM-dd", new Date())
-        : undefined;
-      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : undefined;
+        : defaultFrom;
+      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+
+      // const startDate = from
+      //   ? parse(from, "yyyy-MM-dd", new Date())
+      //   : undefined;
+      // const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : undefined;
 
       try {
-        const takePageSize = Number(pageSize);
-        const skipPages = (Number(page) - 1) * takePageSize;
+        // const takePageSize = Number(pageSize);
+        // const skipPages = (Number(page) - 1) * takePageSize;
 
-        const data = await db.transactions.findMany({
-          skip: skipPages, // Skip the items of previous pages
-          take: takePageSize, // Take the number of items for the current page
+        const transactions = await db.transactions.findMany({
+          // skip: skipPages, // Skip the items of previous pages
+          // take: takePageSize, // Take the number of items for the current page
           where: {
-            accountId: accountId ? Number(accountId) : undefined,
+            accountId: accountId ? accountId : undefined,
             account: {
               userId: c.auth.userId,
             },
@@ -84,6 +82,11 @@ const app = new Hono()
             },
           },
         });
+
+        const data = transactions.map(item => ({
+          ...item,
+          amount: convertAmountFromMiliunit(item.amount)
+        }))
 
         if (!data) {
           return c.json(
@@ -120,7 +123,7 @@ const app = new Hono()
       try {
         const data = await db.transactions.findUnique({
           where: {
-            id: Number(id),
+            id,
             account: {
               userId: c.auth.userId,
             },
@@ -163,6 +166,7 @@ const app = new Hono()
           data: {
             ...values,
             date: new Date(values.date),
+            amount: convertAmountToMiliunit(values.amount),
           },
         });
 
@@ -214,6 +218,8 @@ const app = new Hono()
     async (c) => {
       const { ids } = c.req.valid("json");
 
+      console.log("/bulk-delete ", ids)
+
       try {
         const { count } = await db.transactions.deleteMany({
           where: {
@@ -225,6 +231,9 @@ const app = new Hono()
             },
           },
         });
+
+        console.log("count ", count)
+
         return c.json({ count });
       } catch (error) {
         return c.json(
@@ -256,7 +265,7 @@ const app = new Hono()
       try {
         const data = await db.transactions.update({
           where: {
-            id: Number(id),
+            id,
             account: {
               userId: c.auth.userId,
             },
