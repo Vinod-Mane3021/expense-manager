@@ -29,9 +29,8 @@ const Actions = ({ id }: ActionsProps) => {
     onOpen(id);
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteTransaction = async () => {
     const isConfirm = await confirm();
-    console.log("isConfirm ", isConfirm, id);
     if (isConfirm) {
       const ids: string[] = [id];
       deleteTransactionsMutation.mutate({ ids });
@@ -53,7 +52,7 @@ const Actions = ({ id }: ActionsProps) => {
             <Edit className="size-4 mr-2" />
             Edit
           </DropdownMenuItem>
-          <DropdownMenuItem disabled={isPending} onClick={handleDeleteAccount}>
+          <DropdownMenuItem disabled={isPending} onClick={handleDeleteTransaction}>
             <Trash className="size-4 mr-2" />
             Delete
           </DropdownMenuItem>

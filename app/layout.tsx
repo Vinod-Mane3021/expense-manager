@@ -11,7 +11,7 @@ import {
 import "./globals.css";
 import { QueryProvider } from "@/providers/query-provider";
 import SheetProvider from "@/providers/sheet-provider";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +30,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <QueryProvider>
-            <SheetProvider/>
+            <SheetProvider />
             <Toaster />
             {children}
           </QueryProvider>

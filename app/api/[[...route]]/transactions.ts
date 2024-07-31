@@ -10,10 +10,12 @@ import {
   deleteTransactionSchema,
   getTransactionsSchema,
   transactionIdSchema,
-  updateTransactionSchema,
 } from "@/validations/schema/transactions";
 import { authorizeUserMiddleware } from "@/middlewares/auth";
-import { convertAmountFromMiliunit, convertAmountToMiliunit } from "@/lib/converters";
+import {
+  convertAmountFromMiliunit,
+  convertAmountToMiliunit,
+} from "@/lib/converters";
 
 const app = new Hono()
 
@@ -26,7 +28,6 @@ const app = new Hono()
     clerkMiddleware(),
     authorizeUserMiddleware,
     async (c) => {
-
       const { from, to, accountId } = c.req.valid("query");
 
       const defaultTo = new Date();
@@ -83,10 +84,10 @@ const app = new Hono()
           },
         });
 
-        const data = transactions.map(item => ({
+        const data = transactions.map((item) => ({
           ...item,
-          amount: convertAmountFromMiliunit(item.amount)
-        }))
+          amount: convertAmountFromMiliunit(item.amount),
+        }));
 
         if (!data) {
           return c.json(
@@ -96,7 +97,7 @@ const app = new Hono()
         }
         return c.json({ data });
       } catch (error) {
-        console.error("Error ", error)
+        console.error("Error ", error);
         return c.json(
           { error: "Failed to get transactions" },
           HttpStatusCode.INTERNAL_SERVER_ERROR
@@ -121,7 +122,7 @@ const app = new Hono()
       }
 
       try {
-        const data = await db.transactions.findUnique({
+        const transaction = await db.transactions.findUnique({
           where: {
             id,
             account: {
@@ -138,6 +139,13 @@ const app = new Hono()
             accountId: true,
           },
         });
+
+        const data = {
+          ...transaction,
+          amount:
+            transaction?.amount &&
+            convertAmountFromMiliunit(transaction.amount),
+        };
 
         if (!data) {
           return c.json({ error: "Not found" }, HttpStatusCode.NOT_FOUND);
@@ -195,9 +203,14 @@ const app = new Hono()
         );
       }
 
+      const formattedValues = values.map((val) => ({
+        ...val,
+        amount: convertAmountToMiliunit(val.amount),
+      }));
+
       try {
         const data = await db.transactions.createManyAndReturn({
-          data: { ...values },
+          data: formattedValues,
         });
         return c.json({ data });
       } catch (error) {
@@ -218,7 +231,7 @@ const app = new Hono()
     async (c) => {
       const { ids } = c.req.valid("json");
 
-      console.log("/bulk-delete ", ids)
+      console.log("/bulk-delete ", ids);
 
       try {
         const { count } = await db.transactions.deleteMany({
@@ -232,7 +245,7 @@ const app = new Hono()
           },
         });
 
-        console.log("count ", count)
+        console.log("count ", count);
 
         return c.json({ count });
       } catch (error) {
@@ -250,7 +263,7 @@ const app = new Hono()
     clerkMiddleware(),
     authorizeUserMiddleware,
     zValidator("param", transactionIdSchema),
-    zValidator("json", updateTransactionSchema),
+    zValidator("json", createTransactionSchema),
     async (c) => {
       const { id } = c.req.valid("param");
       if (!id) {
@@ -273,6 +286,7 @@ const app = new Hono()
           data: {
             ...values,
             date: values.date ? new Date(values.date) : undefined,
+            amount: convertAmountToMiliunit(values.amount),
           },
           select: {
             id: true,

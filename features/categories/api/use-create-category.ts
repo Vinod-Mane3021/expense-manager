@@ -1,10 +1,10 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { client } from "@/lib/hono";
+import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { error } from "console";
 import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
   (typeof client.api.categories)["create"]["$post"]
@@ -26,12 +26,12 @@ export const useCreateCategory = () => {
         return data;
     },
     onSuccess: () => {
-      toast.success("New category has been created.");
+      showToast.success("New category has been created.");
       // This will refetch the all categories, every time I create new category
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
     onError: (err) => {
-      toast.error(err.message);
+      showToast.error(err.message);
     },
   });
 

@@ -1,9 +1,9 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { client } from "@/lib/hono";
+import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
   (typeof client.api.accounts)["create"]["$post"]
@@ -25,12 +25,12 @@ export const useCreateAccount = () => {
       return data;
     },
     onSuccess: () => {
-      toast.success("New account has been created.");
+      showToast.success("New account has been created.");
       // This will refetch the all accounts, every time I create new account
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
     },
     onError: (err) => {
-      toast.error(err.message);
+      showToast.error(err.message);
       console.error("error in creating account : ", err.message);
     },
   });

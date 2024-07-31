@@ -1,14 +1,16 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { format } from "date-fns"
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
-import Actions from "./actions"
-import { TransactionResponseType } from "@/types/transaction"
-import { convertAmountFromMiliunit, formatCurrency } from "@/lib/converters"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { format } from "date-fns";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import Actions from "./actions";
+import { TransactionResponseType } from "@/types/transaction";
+import { formatCurrency } from "@/lib/converters";
+import { Badge } from "@/components/ui/badge";
+import AccountColumn from "./account-column";
+import CategoryColumn from "./category-column";
 
 export const columns: ColumnDef<TransactionResponseType>[] = [
   // for selecting
@@ -47,16 +49,12 @@ export const columns: ColumnDef<TransactionResponseType>[] = [
           Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
-      const date = row.getValue("date") as Date
-      return (
-        <span>
-          {format(date, "dd MMMM, yyyy")}
-        </span>
-      )
-    }
+      const date = row.getValue("date") as Date;
+      return <span>{format(date, "dd MMMM, yyyy")}</span>;
+    },
   },
 
   // category col
@@ -71,15 +69,19 @@ export const columns: ColumnDef<TransactionResponseType>[] = [
           Category
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
+      const category = row.original.category?.name ? row.original.category.name : null;
+      const categoryId = row.original.categoryId;
       return (
-        <span>
-          {row.original.category?.name}
-        </span>
-      )
-    }
+        <CategoryColumn
+          id={row.original.id}
+          category={category}
+          categoryId={categoryId}
+        />
+      );
+    },
   },
 
   // payee col
@@ -94,12 +96,12 @@ export const columns: ColumnDef<TransactionResponseType>[] = [
           Payee
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
 
-   // amount col
-   {
+  // amount col
+  {
     accessorKey: "amount",
     header: ({ column }) => {
       return (
@@ -110,11 +112,11 @@ export const columns: ColumnDef<TransactionResponseType>[] = [
           Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
-      const amount = parseFloat(String(row.original.amount))
-      const formatted = formatCurrency(amount)
+      const amount = parseFloat(String(row.original.amount));
+      const formatted = formatCurrency(amount);
       return (
         <Badge
           variant={amount < 0 ? "destructive1" : "primary"}
@@ -122,8 +124,8 @@ export const columns: ColumnDef<TransactionResponseType>[] = [
         >
           {formatted}
         </Badge>
-      )
-    }
+      );
+    },
   },
 
   // account col
@@ -138,19 +140,20 @@ export const columns: ColumnDef<TransactionResponseType>[] = [
           Account
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
       return (
-        <span>
-          {row.original.account?.name}
-        </span>
-      )
-    }
+        <AccountColumn
+          account={row.original.account.name}
+          accountId={row.original.accountId}
+        />
+      );
+    },
   },
 
   {
     id: "actions",
-    cell: ({ row }) => <Actions id={row.original.id}/>
-  }
-]
+    cell: ({ row }) => <Actions id={row.original.id} />,
+  },
+];

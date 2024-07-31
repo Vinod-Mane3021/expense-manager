@@ -20,3 +20,10 @@ export const deleteTransactionDialogProps: UseConfirmTypes = {
   confirmButtonLabel: "Yes, delete transaction",
   type: "alert",
 };
+
+export const deleteDefaultDialogProps: UseConfirmTypes = {
+  title: "Are you absolutely sure?",
+  message: "This action cannot be undone. This will permanently from our servers.",
+  confirmButtonLabel: "Yes, delete",
+  type: "alert",
+};

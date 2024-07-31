@@ -36,11 +36,11 @@ model Categories {
 }
 
 model Transactions {
-  id     String   @id @default(cuid())
-  amount Int
-  payee  String
-  notes  String?
-  date   DateTime
+  id       String   @id @default(cuid())
+  amount   Int // saving in milliunits (ex: $1 --> $1000)
+  payee    String
+  notes    String?
+  date     DateTime
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 

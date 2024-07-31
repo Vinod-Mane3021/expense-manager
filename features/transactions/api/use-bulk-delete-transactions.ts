@@ -1,9 +1,9 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { client } from "@/lib/hono";
+import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
   (typeof client.api.transactions)["bulk-delete"]["$post"]
@@ -31,13 +31,13 @@ export const useBulkDeleteTransactions = () => {
     onSuccess: (data, json) => {
       const idsLength = json.ids.length;
       const message = idsLength > 1 ? " transactions deleted." : " transaction deleted.";
-      toast.success(idsLength + message);
+      showToast.success(idsLength + message);
       // This will refetch the all transactions, every time I delete transaction
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       // TODO: also invalidate summary
     },
     onError: (error) => {
-      toast.error(error.message);
+      showToast.error(error.message);
     },
   });
   return mutation;

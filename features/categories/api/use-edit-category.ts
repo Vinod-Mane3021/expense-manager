@@ -1,9 +1,9 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { client } from "@/lib/hono";
+import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
 
 type ResponseType = InferResponseType<(typeof client.api.categories)[":id"]["$patch"]>;
 type RequestType = InferRequestType<(typeof client.api.categories)[":id"]["$patch"]>["json"];
@@ -30,14 +30,15 @@ export const useEditCategory = (id?: string) => {
       throw new Error("Failed to edit category");
     },
     onSuccess: () => {
-      toast.success("Category updated");
+      showToast.success("Category updated");
       // This will refetch the all categories, every time I create new category
       queryClient.invalidateQueries({ queryKey: ["category", { id }] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-      // TODO: invalidate summary and transactions
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      // TODO: invalidate summary
     },
     onError: (err) => {
-      toast.error(err.message);
+      showToast.error(err.message);
       console.error("error in editing category : ", err.message);
     },
   });

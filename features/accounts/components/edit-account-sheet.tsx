@@ -14,6 +14,7 @@ import {
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteAccountDialogProps } from "@/constants/props";
 import { useBulkDeleteAccounts } from "../api/use-bulk-delete-accounts";
+import { showToast } from "@/lib/toast";
 
 const EditAccountSheet = () => {
   const { isOpen, onClose, id } = useOpenAccount();
@@ -28,6 +29,14 @@ const EditAccountSheet = () => {
   const [ConfirmationDialog, confirm] = useConfirm(deleteAccountDialogProps);
 
   const onSubmit = (values: AccountFormValues) => {
+
+    const isEdited = accountQuery.data?.name !== values.name;
+    if (!isEdited) {
+      showToast.info("You have not changed the name.");
+      onClose();
+      return;
+    }
+
     editAccountMutation.mutate(values, {
       onSuccess: () => {
         onClose();

@@ -14,6 +14,7 @@ import {
 import { useConfirm } from "@/hooks/use-confirm";
 import { deleteCategoryDialogProps } from "@/constants/props";
 import { useBulkDeleteCategories } from "../api/use-bulk-delete-categories";
+import { showToast } from "@/lib/toast";
 
 const EditCategorySheet = () => {
   const { isOpen, onClose, id } = useOpenCategory();
@@ -28,6 +29,12 @@ const EditCategorySheet = () => {
   const [ConfirmationDialog, confirm] = useConfirm(deleteCategoryDialogProps);
 
   const onSubmit = (values: CategoryFormValues) => {
+
+    const isEdited = categoryQuery.data?.name !== values.name;
+    if (!isEdited) {
+      showToast.error("You have not changed the name.");
+      return;
+    }
     editCategoryMutation.mutate(values, {
       onSuccess: () => {
         onClose();

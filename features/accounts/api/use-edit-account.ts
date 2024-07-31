@@ -1,9 +1,9 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { client } from "@/lib/hono";
+import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
 
 type ResponseType = InferResponseType<
   (typeof client.api.accounts)[":id"]["$patch"]
@@ -34,14 +34,15 @@ export const useEditAccount = (id?: string) => {
       throw new Error("Failed to edit account");
     },
     onSuccess: () => {
-      toast.success("Account updated");
+      showToast.success("Account updated");
       // This will refetch the all accounts, every time I create new account
       queryClient.invalidateQueries({ queryKey: ["account", { id }] });
       queryClient.invalidateQueries({ queryKey: ["accounts"] });
-      // TODO: invalidate summary and transactions
+      queryClient.invalidateQueries({queryKey: ["transactions"]})
+      // TODO: invalidate summary
     },
     onError: (err) => {
-      toast.error(err.message);
+      showToast.error(err.message);
       console.error("error in editing acc : ", err.message);
     },
   });

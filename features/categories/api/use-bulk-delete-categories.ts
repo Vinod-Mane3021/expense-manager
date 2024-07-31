@@ -1,9 +1,9 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
 import { client } from "@/lib/hono";
+import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { InferRequestType, InferResponseType } from "hono";
-import { toast } from "sonner";
 
 type ResponseType = InferResponseType<(typeof client.api.categories)["bulk-delete"]["$post"]>;
 type RequestType = InferRequestType<(typeof client.api.categories)["bulk-delete"]["$post"]>["json"];
@@ -27,13 +27,16 @@ export const useBulkDeleteCategories = () => {
     onSuccess: (data, json) => {
       const idsLength = json.ids.length;
       const message = idsLength > 1 ? " categories deleted." : " category deleted.";
-      toast.success(idsLength + message);
+      showToast.success(idsLength + message);
       // This will refetch the all categories, every time I delete category
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      if(idsLength === 1) {
+        queryClient.invalidateQueries({queryKey: ["transactions"]})
+      }
       // TODO: also invalidate summary
     },
     onError: (error, { ids }) => {
-      toast.error(error.message);
+      showToast.error(error.message);
     },
   });
   return mutation;

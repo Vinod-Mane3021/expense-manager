@@ -32,12 +32,6 @@ const AccountForm = ({
   console.log("defaultValues ", defaultValues);
 
   const handleSubmit = (values: AccountFormValues) => {
-    if (id && defaultValues?.name === values.name) {
-      toast.error("You have not changed the name.");
-      return;
-    }
-    console.log("handleSubmit");
-    console.log(values);
     onSubmit(values);
   };
 

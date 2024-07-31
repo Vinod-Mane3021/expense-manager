@@ -36,15 +36,6 @@ export const createTransactionFormSchema = z.object({
   categoryId: z.string().nullable().optional(),
 });
 
-export const updateTransactionSchema = z.object({
-  amount: z.number().optional(),
-  payee: z.string().optional(),
-  notes: z.string().optional(),
-  date: z.string().optional(),
-  accountId: z.string().optional(),
-  categoryId: z.string().optional(),
-});
-
 export const transactionApiSchema = createTransactionSchema;
 
 export const bulkCreateTransactionSchema = z.array(createTransactionSchema)
