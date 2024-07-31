@@ -18,6 +18,7 @@ export const deleteTransactionSchema = z.object({
   ids: z.array(z.string()),
 });
 
+
 export const createTransactionSchema = z.object({
   amount: z.number(),
   payee: z.string(),

@@ -204,24 +204,23 @@ const app = new Hono()
         );
       }
 
-      const dateFormate = "yyyy-MM-dd HH:mm:ss";
-      const outputFormate = "yyyy-MM-dd";
-
-      const formattedValues = values.map((val) => ({
-        ...val,
-        amount: convertAmountToMiliunit(val.amount),
-        date: val.date && detectAndFormatDate(val.date.toString())
-      }));
+      // const formattedValues = values.map((val) => ({
+      //   ...val,
+      //   amount: convertAmountToMiliunit(val.amount),
+      //   date: val.date && detectAndFormatDate(val.date.toString())
+      // }));
 
       console.log("formattedValues --> ")
-      console.log({ formattedValues })
+      console.log({ values })
 
       try {
         const data = await db.transactions.createManyAndReturn({
-          data: formattedValues,
+          data: values,
         });
         return c.json({ data });
       } catch (error) {
+        console.error("ERROR")
+        console.error(error)
         return c.json(
           { error: "Failed to create transactions" },
           HttpStatusCode.INTERNAL_SERVER_ERROR

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import {
+  bulkCreateTransactionSchema,
   createTransactionFormSchema,
   createTransactionSchema,
   transactionApiSchema,
@@ -12,6 +13,8 @@ import { HttpStatusCode } from "@/constants/http-status-code";
 export type TransactionFormValues = z.input<typeof createTransactionFormSchema>;
 
 export type TransactionApiFormValues = z.input<typeof createTransactionSchema>;
+
+export type BulkCreateTransactionData = z.input<typeof bulkCreateTransactionSchema>;
 
 export type TransactionResponseType = InferResponseType<
   typeof client.api.transactions.$get,

@@ -91,16 +91,16 @@ const ImportCard = ({ data, onCancel, onSubmit }: Props) => {
         console.log("arrayOfData --> ")
         console.log({ arrayOfData })
 
-        onSubmit(arrayOfData)
+        const formattedData = arrayOfData.map(item => ({
+            ...item,
+            amount: convertAmountToMiliunit(item.amount),
+            date: item.date && detectAndFormatDate(item.date)
+        }))
 
-        // const formattedData = arrayOfData.map(item => ({
-        //     ...item,
-        //     amount: convertAmountToMiliunit(item.amount),
-        //     date: item.date && detectAndFormatDate(item.date)
-        // }))
+        onSubmit(formattedData)
 
-        // console.log("formattedData --> ")
-        // console.log({ formattedData })
+        console.log("formattedData --> ")
+        console.log({ formattedData })
 
     }
 
