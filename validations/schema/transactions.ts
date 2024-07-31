@@ -38,4 +38,4 @@ export const createTransactionFormSchema = z.object({
 
 export const transactionApiSchema = createTransactionSchema;
 
-export const bulkCreateTransactionSchema = z.array(createTransactionSchema)
+export const bulkCreateTransactionSchema = z.array(createTransactionSchema);

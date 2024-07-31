@@ -1,4 +1,4 @@
-import { subDays, parse } from "date-fns";
+import { subDays, parse, format } from "date-fns";
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { db } from "@/lib/db";
 import { clerkMiddleware } from "@hono/clerk-auth";
@@ -16,6 +16,7 @@ import {
   convertAmountFromMiliunit,
   convertAmountToMiliunit,
 } from "@/lib/converters";
+import { detectAndFormatDate } from "@/lib/detect-and-format-date";
 
 const app = new Hono()
 
@@ -203,10 +204,17 @@ const app = new Hono()
         );
       }
 
+      const dateFormate = "yyyy-MM-dd HH:mm:ss";
+      const outputFormate = "yyyy-MM-dd";
+
       const formattedValues = values.map((val) => ({
         ...val,
         amount: convertAmountToMiliunit(val.amount),
+        date: val.date && detectAndFormatDate(val.date.toString())
       }));
+
+      console.log("formattedValues --> ")
+      console.log({ formattedValues })
 
       try {
         const data = await db.transactions.createManyAndReturn({
