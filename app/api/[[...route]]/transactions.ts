@@ -17,6 +17,7 @@ import {
   convertAmountToMiliunit,
 } from "@/lib/converters";
 import { detectAndFormatDate } from "@/lib/detect-and-format-date";
+import { BULK_CREATE_TRANSACTION_DATA_LIMIT } from "@/constants";
 
 const app = new Hono()
 
@@ -200,6 +201,13 @@ const app = new Hono()
       if (!values) {
         return c.json(
           { error: "Provided invalid inputs" },
+          HttpStatusCode.BAD_REQUEST
+        );
+      }
+
+      if(values.length > BULK_CREATE_TRANSACTION_DATA_LIMIT) {
+        return c.json(
+          { error: "Can't create transactions more than " + BULK_CREATE_TRANSACTION_DATA_LIMIT},
           HttpStatusCode.BAD_REQUEST
         );
       }

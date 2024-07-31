@@ -20,6 +20,7 @@ import {
 import UploadButton from "./upload-button";
 import ImportCard from "./import-card";
 import { INITIAL_IMPORT_RESULTS, VARIANTS } from "./util";
+import { BULK_CREATE_TRANSACTION_DATA_LIMIT } from "@/constants";
 
 const TransactionsPage = () => {
   const [AccountDialog, confirm] = useSelectAccount();
@@ -36,7 +37,9 @@ const TransactionsPage = () => {
     transactionsQuery.isLoading || deleteTransactions.isPending;
 
   const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
-    console.log({ results });
+    if(results.data.length > BULK_CREATE_TRANSACTION_DATA_LIMIT) {
+      return showToast.error("Can't import transactions more than " + BULK_CREATE_TRANSACTION_DATA_LIMIT);
+    }
     setImportResults(results);
     setVariant(VARIANTS.IMPORT);
   };
@@ -47,9 +50,6 @@ const TransactionsPage = () => {
   };
 
   const onSubmitImport = async (values: BulkCreateTransactionData) => {
-    console.log("onSubmitImport ---------------> data");
-    console.log({ values });
-
     if (values.length === 0) {
       return showToast.error("Please provide data to import");
     }

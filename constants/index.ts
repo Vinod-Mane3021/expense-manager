@@ -1,0 +1,2 @@
+
+export const BULK_CREATE_TRANSACTION_DATA_LIMIT = 50;
