@@ -1,6 +1,6 @@
 import { subDays, parse, format } from "date-fns";
 import { HttpStatusCode } from "@/constants/http-status-code";
-import { db } from "@/lib/db";
+import { db } from "@/db/index";
 import { clerkMiddleware } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";

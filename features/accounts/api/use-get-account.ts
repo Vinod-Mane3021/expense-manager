@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db } from "@/db/index";
 import { client } from "@/lib/hono";
 import { useQuery } from "@tanstack/react-query";
 

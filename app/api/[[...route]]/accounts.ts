@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
-import { db } from "@/lib/db";
+import { db } from "@/db/index";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
