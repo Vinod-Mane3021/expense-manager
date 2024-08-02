@@ -1,15 +1,16 @@
 
 ![Dashboard](./public/spanshots/app_image.png)
 
-# <img src="./public/expense_manager_logo.png" alt="Expense Manager Logo" style="width: 25px; height: auto; margin-bottom: -2px"/> <span style="font-family: 'Georgia', serif; font-weight: bold; font-size: 1em; color: #FFE5CA;">Expense Manager</span>
 
+<div align="center">
+ 
 
+  <h2 style="font-family: 'Georgia', serif; font-weight: bold; font-size: 2rem; color: #FFE5CA;" align="center">Expense Manager</h2>
 
-<i>**A comprehensive platform to track, manage, and optimize your finances.**</i>
-
-
-Expense Manager is an innovative Finance SaaS Platform designed to help users efficiently manage their personal finances. With a focus on user-friendly experience and comprehensive financial oversight, this application empowers users to track their income and expenses, visualize their financial data, and make informed financial decisions. Whether you're managing everyday expenses or analyzing complex financial data, Expense Manager provides intuitive tools and features to streamline and enhance your financial management.
-
+   **<div align="center">
+    <i>A comprehensive platform to track, manage, and optimize your finances.</i>
+    </div>**
+</div>
 
 
 ## 📚 Table of Contents
@@ -23,6 +24,12 @@ Expense Manager is an innovative Finance SaaS Platform designed to help users ef
 <!-- 4. [📝 Contributing](#-contributing) -->
 <!-- 5. [📄 License](#-license) -->
 <!-- 6. [📬 Contact](#-contact) -->
+
+## 🤖 Introduction
+
+Expense Manager is an innovative Finance SaaS Platform designed to help users efficiently manage their personal finances. With a focus on user-friendly experience and comprehensive financial oversight, this application empowers users to track their income and expenses, visualize their financial data, and make informed financial decisions. Whether you're managing everyday expenses or analyzing complex financial data, Expense Manager provides intuitive tools and features to streamline and enhance your financial management.
+
+
 
 ## ✨ Features
 
