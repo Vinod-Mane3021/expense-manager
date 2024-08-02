@@ -7,7 +7,7 @@ import {
   transactionsNameSchema,
 } from "@/validations/schema/transactions";
 import { InferResponseType } from "hono";
-import { client } from "@/lib/hono";
+import { client } from "@/db/hono";
 import { HttpStatusCode } from "@/constants/http-status-code";
 
 export type TransactionFormValues = z.input<typeof createTransactionFormSchema>;

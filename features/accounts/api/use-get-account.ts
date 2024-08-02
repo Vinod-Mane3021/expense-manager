@@ -1,5 +1,5 @@
 import { db } from "@/db/index";
-import { client } from "@/lib/hono";
+import { client } from "@/db/hono";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetAccount = (id?: string) => {

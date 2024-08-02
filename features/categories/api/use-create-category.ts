@@ -1,6 +1,6 @@
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { ResponseMessage } from "@/constants/response-messages";
-import { client } from "@/lib/hono";
+import { client } from "@/db/hono";
 import { showToast } from "@/lib/toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { error } from "console";

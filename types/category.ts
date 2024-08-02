@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { InferResponseType } from "hono";
-import { client } from "@/lib/hono";
+import { client } from "@/db/hono";
 import { HttpStatusCode } from "@/constants/http-status-code";
 import { categoryNameSchema } from "@/validations/schema/categories";
 
