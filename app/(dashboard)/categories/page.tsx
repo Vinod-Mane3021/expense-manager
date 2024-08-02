@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { DataTable } from "@/components/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { columns } from "./columns";
+import { columns } from "@/components/pages/categories/columns";
 import { useNewCategory } from "@/features/categories/hooks/use-new-category";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { CategoryResponseType } from "@/types/category";

@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { AccountResponseType } from "@/types/account"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
-import Actions from "./actions"
+import Actions from "@/components/pages/account/actions"
 
 export const columns: ColumnDef<AccountResponseType>[] = [
   // for selecting

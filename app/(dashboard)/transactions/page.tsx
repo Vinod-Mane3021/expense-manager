@@ -6,7 +6,7 @@ import { Loader2, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { columns } from "./columns";
+import { columns } from "@/components/pages/transactions/columns";
 import { DataTable } from "@/components/data-table";
 import { useNewTransaction } from "@/features/transactions/hooks/use-new-transaction";
 import { useBulkCreateTransactions } from "@/features/transactions/api/use-bulk-create-transactions";
@@ -17,9 +17,9 @@ import {
   BulkCreateTransactionData,
   TransactionResponseType,
 } from "@/types/transaction";
-import UploadButton from "./upload-button";
-import ImportCard from "./import-card";
-import { INITIAL_IMPORT_RESULTS, VARIANTS } from "./util";
+import UploadButton from "@/components/pages/transactions/upload-button";
+import ImportCard from "@/components/pages/transactions/import-card";
+import { INITIAL_IMPORT_RESULTS, VARIANTS } from "@/components/pages/transactions/util";
 import { BULK_CREATE_TRANSACTION_DATA_LIMIT } from "@/constants";
 
 const TransactionsPage = () => {
