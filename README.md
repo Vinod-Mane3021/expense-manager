@@ -14,11 +14,11 @@ This application is a comprehensive Finance SaaS Platform developed using a mode
 
 ## 📚 Table of Contents
 
-1. [✨ Features](#-features)
-2. [🧑‍💻 Tech Stack](#-tech-stack)
-3. [🔧 Local Setup](#-local-setup)
-7. [📄 Feedback](#-feedback)
-8. [📸 Screenshots](#-screenshots)
+1. ✨ [Features](#-features)
+2. 🧑‍💻 [Tech Stack](#-tech-stack)
+3. 🔧 [Local Setup](#-local-setup)
+7. 📄 [Feedback](#-feedback)
+8. 📸 [Screenshots](#-screenshots)
 
 <!-- 4. [📝 Contributing](#-contributing) -->
 <!-- 5. [📄 License](#-license) -->
