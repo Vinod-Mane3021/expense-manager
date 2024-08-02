@@ -156,7 +156,7 @@ I'd be happy to connect with you! <br>
 <a href="https://www.linkedin.com/in/vinod-mane-a74817220/" target="_blank">
   <img style="border-radius: 3px;" src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white"  target="_blank">
 </a> 
-<a href="https://twitter.com/your_twitter_handle" target="_blank">
+<a href="https://x.com/VinodMane21" target="_blank">
   <img height="27" src="https://img.shields.io/twitter/follow/VinodMane21?logoSize=100" alt="Twitter Badge" />
 </a>
 
