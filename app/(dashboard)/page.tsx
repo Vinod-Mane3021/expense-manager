@@ -8,16 +8,10 @@ import Image from "next/image";
 
 export default function Home() {
 
-  const { isOpen, onOpen, onClose } = useNewAccount()
-
-  const { data, isLoading } = useGetAccounts()
 
   return (
     <div>
        Dashboard Page
-       <Button onClick={onOpen}>
-        Click ME
-       </Button>
     </div>
   );
 }
