@@ -103,7 +103,7 @@ const app = new Hono().get(
         remainingAmount: reduceDecimals(currentPeriod.remaining, 2),
         
         categories: finalCategories,
-        days,
+        days: activeDays,
       },
     });
   }

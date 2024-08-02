@@ -2,6 +2,7 @@ import { convertAmountFromMiliunit } from "@/lib/converters";
 import { db } from "..";
 import { reduceDecimals } from "@/lib/calculation";
 import { format } from 'date-fns'
+import { detectAndFormatDate } from "@/lib/detect-and-format-date";
 
 type FetchDataInputType = {
   userId: string | undefined;
@@ -193,15 +194,16 @@ export async function fetchActiveDays({
 
   // Group by date and calculate income and expenses
   const groupedData: GroupedData = transactions.reduce((acc, transaction) => {
-    const date = format(transaction.date, "yyyy-MM-dd HH:mm:ss")
+    const date = transaction.date.toISOString();
     if (!acc[date]) {
       acc[date] = { date: date, income: 0, expenses: 0 };
     }
-
+    
+    const transactionAmount = convertAmountFromMiliunit(transaction.amount);
     if (transaction.amount >= 0) {
-      acc[date].income += transaction.amount;
+      acc[date].income += transactionAmount;
     } else {
-      acc[date].expenses += Math.abs(transaction.amount);
+      acc[date].expenses += Math.abs(transactionAmount);
     }
     return acc;
   }, {} as GroupedData);
