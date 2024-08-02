@@ -1,6 +1,7 @@
 import { convertAmountFromMiliunit } from "@/lib/converters";
 import { db } from "..";
-import { roundToDecimal } from "@/lib/calculation";
+import { reduceDecimals } from "@/lib/calculation";
+import { format } from 'date-fns'
 
 type FetchDataInputType = {
   userId: string | undefined;
@@ -115,8 +116,7 @@ export async function fetchCategoryData({
       const categoryName = transaction.category
         ? transaction.category.name
         : "Uncategorized";
-      const amount = convertAmountFromMiliunit(Math.abs(transaction.amount));
-      const value = roundToDecimal(amount, 2)
+      const value = convertAmountFromMiliunit(Math.abs(transaction.amount));
 
       if (!acc[categoryName]) {
         acc[categoryName] = {
@@ -134,7 +134,12 @@ export async function fetchCategoryData({
 
   const categories = Object.values(categoryMap)
 
-  return categories;
+  const finalCategories = categories.map(category => ({
+    name: category.name,
+    value: reduceDecimals(category.value)
+  }))
+
+  return finalCategories;
 }
 
 interface TransactionData {
@@ -144,14 +149,14 @@ interface TransactionData {
 
 interface GroupedData {
   [date: string]: {
-    date: Date;
+    date: string;
     income: number;
     expenses: number;
   };
 }
 
 interface ResultData {
-  date: Date;
+  date: string;
   income: number;
   expenses: number;
 }
@@ -162,7 +167,7 @@ export async function fetchActiveDays({
   startDate,
   endDate,
 }: FetchDataInputType): Promise<{
-  date: Date;
+  date: string;
   income: number;
   expenses: number;
 }[]> {
@@ -188,10 +193,11 @@ export async function fetchActiveDays({
 
   // Group by date and calculate income and expenses
   const groupedData: GroupedData = transactions.reduce((acc, transaction) => {
-    const date = transaction.date.toISOString().split("T")[0]; // Group by date only (ignoring time)
+    const date = format(transaction.date, "yyyy-MM-dd HH:mm:ss")
     if (!acc[date]) {
-      acc[date] = { date: new Date(date), income: 0, expenses: 0 };
+      acc[date] = { date: date, income: 0, expenses: 0 };
     }
+
     if (transaction.amount >= 0) {
       acc[date].income += transaction.amount;
     } else {

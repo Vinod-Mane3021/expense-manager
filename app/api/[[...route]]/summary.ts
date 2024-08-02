@@ -6,7 +6,7 @@ import { getSummarySchema } from "@/validations/schema/summary";
 import { subDays, parse, differenceInDays } from "date-fns";
 import { db } from "@/db/index";
 import { convertAmountFromMiliunit } from "@/lib/converters";
-import { calculatePercentageChange, roundToDecimal } from "@/lib/calculation";
+import { calculatePercentageChange, reduceDecimals } from "@/lib/calculation";
 import {
   fetchActiveDays,
   fetchCategoryData,
@@ -92,31 +92,18 @@ const app = new Hono().get(
 
     const days = fillMissingDays(activeDays, startDate, endDate);
 
-    /**
- * 
- *      currentPeriod,
-      lastPeriod,
-
-      incomeChange,
-      expensesChange,
-      remainingChange,
-
-      finalCategories,
-
-      days
- */
     return c.json({
       data: {
         incomeChange,
         expensesChange,
         remainingChange,
 
-        incomeAmount: roundToDecimal(currentPeriod.income, 2),
-        expenseAmount: roundToDecimal(currentPeriod.expenses, 2),
-        remainingAmount: roundToDecimal(currentPeriod.remaining, 2),
+        incomeAmount: reduceDecimals(currentPeriod.income, 2),
+        expenseAmount: reduceDecimals(currentPeriod.expenses, 2),
+        remainingAmount: reduceDecimals(currentPeriod.remaining, 2),
         
         categories: finalCategories,
-        days: activeDays,
+        days,
       },
     });
   }

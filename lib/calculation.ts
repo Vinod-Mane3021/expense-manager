@@ -14,7 +14,7 @@ export const calculatePercentageChange = (
   const percentage = ((currentValue - previousValue) / previousValue) * 100;
 
   // Round the percentage change to 2 decimal places
-  return roundToDecimal(percentage);
+  return reduceDecimals(percentage);
 };
 
 /**
@@ -23,7 +23,7 @@ export const calculatePercentageChange = (
  * @param decimalCount - The number of decimal places to round to. by default the value is 2
  * @returns The rounded number.
  */
-export function roundToDecimal(value: number, decimalCount?: number): number {
+export function reduceDecimals(value: number, decimalCount?: number): number {
   const factor = Math.pow(10, decimalCount || 2);
   return Math.round(value * factor) / factor;
 }

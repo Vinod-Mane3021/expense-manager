@@ -1,8 +1,9 @@
 import { eachDayOfInterval, isSameDay } from "date-fns";
+import { format } from 'date-fns'
 
 export const fillMissingDays = (
   activeDays: {
-    date: Date;
+    date: string;
     income: number;
     expenses: number;
   }[],
@@ -26,7 +27,7 @@ export const fillMissingDays = (
     }
 
     return {
-      date: day,
+      date: format(day, "yyyy-MM-dd HH:mm:ss"),
       income: 0,
       expenses: 0,
     };

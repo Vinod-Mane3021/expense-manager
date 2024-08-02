@@ -1,4 +1,3 @@
-import { convertAmountFromMiliunit } from "@/lib/converters";
 import { client } from "@/lib/hono";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -10,7 +9,7 @@ export const useGetTransactions = () => {
   const accountId = params.get("accountId") || "";
 
   const query = useQuery({
-    // TODO: check if params are needed in kry
+    // TODO: check if params are needed in key
     queryKey: ["transactions", { from, to, accountId }],
     queryFn: async () => {
       {
