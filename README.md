@@ -8,7 +8,7 @@
 <i>**A comprehensive platform to track, manage, and optimize your finances.**</i>
 
 
-This application is a comprehensive Finance SaaS Platform developed using a modern web technology stack. It leverages Next.js for the frontend, Hono.js for the backend API, Prisma ORM for database interactions, and Neon Database for data storage. The platform also integrates Clerk for secure user authentication. This project was developed primarily for educational purposes, showcasing a wide array of features and technologies.
+Expense Manager is an innovative Finance SaaS Platform designed to help users efficiently manage their personal finances. With a focus on user-friendly experience and comprehensive financial oversight, this application empowers users to track their income and expenses, visualize their financial data, and make informed financial decisions. Whether you're managing everyday expenses or analyzing complex financial data, Expense Manager provides intuitive tools and features to streamline and enhance your financial management.
 
 
 
