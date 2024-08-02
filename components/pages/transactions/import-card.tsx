@@ -6,7 +6,7 @@ import ImportTable from "./import-table";
 import { options, requiredOptions } from "./util";
 import { cn } from "@/lib/utils";
 import { convertAmountToMiliunit } from "@/lib/converters";
-import { detectAndFormatDate } from "@/lib/detect-and-format-date";
+import { detectAndFormatDate } from "@/lib/date";
 
 interface SelectedColumnsState {
   [key: string]: string | null;

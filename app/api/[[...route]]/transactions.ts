@@ -16,7 +16,6 @@ import {
   convertAmountFromMiliunit,
   convertAmountToMiliunit,
 } from "@/lib/converters";
-import { detectAndFormatDate } from "@/lib/detect-and-format-date";
 import { BULK_CREATE_TRANSACTION_DATA_LIMIT } from "@/constants";
 
 const app = new Hono()

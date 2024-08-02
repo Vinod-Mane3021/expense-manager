@@ -2,7 +2,6 @@ import { convertAmountFromMiliunit } from "@/lib/converters";
 import { db } from "..";
 import { reduceDecimals } from "@/lib/calculation";
 import { format } from 'date-fns'
-import { detectAndFormatDate } from "@/lib/detect-and-format-date";
 
 type FetchDataInputType = {
   userId: string | undefined;
