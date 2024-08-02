@@ -1,5 +1,5 @@
 
-![Dashboard](./public/app_image.png)
+![Dashboard](./public/spanshots/app_image.png)
 
 # <img src="./public/expense_manager_logo.png" alt="Expense Manager Logo" style="width: 25px; height: auto; margin-bottom: -2px"/> <span style="font-family: 'Georgia', serif; font-weight: bold; font-size: 1em; color: #FFE5CA;">Expense Manager</span>
 
@@ -17,10 +17,12 @@ This application is a comprehensive Finance SaaS Platform developed using a mode
 1. [✨ Features](#-features)
 2. [🧑‍💻 Tech Stack](#-tech-stack)
 3. [🔧 Local Setup](#-local-setup)
-4. [📝 Contributing](#-contributing)
-5. [📄 License](#-license)
-6. [📬 Contact](#-contact)
+7. [📄 Feedback](#-feedback)
+8. [📸 Screenshots](#-screenshots)
 
+<!-- 4. [📝 Contributing](#-contributing) -->
+<!-- 5. [📄 License](#-license) -->
+<!-- 6. [📬 Contact](#-contact) -->
 
 ## ✨ Features
 
@@ -149,6 +151,16 @@ I'd be happy to connect with you! <br>
 <a href="https://twitter.com/your_twitter_handle" target="_blank">
   <img height="27" src="https://img.shields.io/twitter/follow/VinodMane21?logoSize=100" alt="Twitter Badge" />
 </a>
+
+
+
+## 📸 Screenshots
+<!-- - ![Dashboard](./public/app_image.png) -->
+- ![Transaction Form](./public/spanshots/transaction_page.png)
+
+- ![Settings](./public/spanshots/account_page.png)
+
+- ![Reports](./public/spanshots/category_page.png)
 
 
 
