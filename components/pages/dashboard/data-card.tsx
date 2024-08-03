@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CountUp } from "@/components/count-up";
+import { formatCurrency, formatPercentage } from "@/lib/converters";
 
 const boxVariant = cva("shrink-0 rounded-md p-3", {
   variants: {
@@ -70,8 +72,30 @@ const DataCard = ({
           <Icon className={cn(iconVariant({ variant }))} />
         </div>
       </CardHeader>
+      <CardContent>
+        <h1 className="font-bold text-2xl mb-2 line-clamp-1 break-all">
+          <CountUp
+            preserveValue
+            start={0}
+            end={value}
+            decimals={2}
+            decimalPlaces={2}
+            formattingFn={formatCurrency}
+          />
+        </h1>
+        <p
+          className={cn(
+            "text-muted-foreground text-sm line-clamp-1",
+            percentageChange > 0 && "text-emerald-500",
+            percentageChange < 0 && "text-rose-500"
+          )}
+        >
+          {formatPercentage(percentageChange, {addPrefix: true})} from last period
+        </p>
+      </CardContent>
     </Card>
   );
 };
 
 export default DataCard;
+

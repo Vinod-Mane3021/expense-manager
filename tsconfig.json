@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    
     // uncomment these config while running '/scripts/seed.ts' file
-    // "module": "commonjs",
-
-    "module": "esnext",
-    "moduleResolution": "bundler",
-
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "commonjs",
+    // "module": "esnext",
+    // "moduleResolution": "bundler",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,9 +24,19 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@/*": [
+        "./*"
+      ]
+    },
+    "moduleResolution": "node"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
