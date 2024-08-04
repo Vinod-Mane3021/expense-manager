@@ -4,9 +4,9 @@ import { useSearchParams } from "next/navigation";
 
 export const useGetSummary = () => {
   const params = useSearchParams();
-  const from = params.get("from") || "";
-  const to = params.get("to") || "";
-  const accountId = params.get("accountId") || "";
+  const from = params.get("from") || undefined;
+  const to = params.get("to") || undefined;
+  const accountId = params.get("accountId") || undefined;
 
   const query = useQuery({
     // TODO: check if params are needed in key
@@ -22,6 +22,8 @@ export const useGetSummary = () => {
 
       if (response.ok) {
         const { data } = await response.json();
+        console.log("data from back ")
+        console.log({ data })
         return data;
       }
 

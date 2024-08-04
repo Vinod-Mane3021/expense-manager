@@ -61,7 +61,7 @@ const DataCard = ({
   return (
     <Card className="border-none drop-shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between gap-x-4">
-        <div className="space-y-2">
+        <div className="space-y-1">
           <CardTitle className="text-2xl line-clamp-1">{title}</CardTitle>
           <CardDescription className="line-clamp-1">
             {dateRange}

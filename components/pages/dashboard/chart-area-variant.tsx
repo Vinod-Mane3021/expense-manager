@@ -25,12 +25,12 @@ const ChartAreaVariant = ({ data }: Props) => {
         <CartesianGrid strokeDasharray="3 3" />
         <defs>
           <linearGradient id="income" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="2%" stopColor="#3D82F6" stopOpacity={0.8} />
-            <stop offset="98%" stopColor="#3D82F6" stopOpacity={0} />
+            <stop offset="2%" stopColor="#399918" stopOpacity={0.8} />
+            <stop offset="98%" stopColor="#399918" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="expenses" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="2%" stopColor="#F43F5E" stopOpacity={0.8} />
-            <stop offset="98%" stopColor="#F43F5E" stopOpacity={0} />
+            <stop offset="2%" stopColor="#FF6500" stopOpacity={0.8} />
+            <stop offset="98%" stopColor="#FF6500" stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis
@@ -46,8 +46,8 @@ const ChartAreaVariant = ({ data }: Props) => {
           type="monotone"
           dataKey="income"
           stackId="income"
-          strokeWidth={2}
-          stroke="#3D82F6"
+          strokeWidth={1}
+          stroke="#399918"
           fill="url(#income)"
           className="drop-shadow-sm"
         />
@@ -55,8 +55,8 @@ const ChartAreaVariant = ({ data }: Props) => {
           type="monotone"
           dataKey="expenses"
           stackId="expenses"
-          strokeWidth={2}
-          stroke="#F43F5E"
+          strokeWidth={1}
+          stroke="#FF6500"
           fill="url(#expenses)"
           className="drop-shadow-sm"
         />

@@ -62,6 +62,11 @@ const app = new Hono().get(
       lastPeriod.remaining
     );
 
+    console.log("c.auth.userId", c.auth.userId)
+    console.log("accountId", accountId + "    |  type --> " + typeof accountId)
+    console.log("startDate", startDate)
+    console.log("endDate", endDate)
+
     const categoriesAmount = await fetchCategoryData({
       userId: c.auth.userId,
       accountId: accountId,
@@ -92,6 +97,9 @@ const app = new Hono().get(
 
     const days = fillMissingDays(activeDays, startDate, endDate);
 
+    console.log("finalCategories length ", finalCategories.length)
+    console.log("days length ", days.length)
+
     return c.json({
       data: {
         incomeChange,
@@ -103,7 +111,7 @@ const app = new Hono().get(
         remainingAmount: reduceDecimals(currentPeriod.remaining, 2),
         
         categories: finalCategories,
-        days: activeDays,
+        days: days,
       },
     });
   }
