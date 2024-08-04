@@ -7,7 +7,7 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import CustomTooltip from "./custom-tooltip";
+import CustomTooltip from "../custom-tooltip";
 
 type Props = {
   data: {

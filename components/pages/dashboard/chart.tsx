@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AreaChart, BarChart3, FileSearch, LineChart } from "lucide-react";
-import ChartAreaVariant from "./chart-area-variant";
-import ChartBarVariant from "./chart-bar-variant";
-import ChartLineVariant from "./chart-line-variant";
+import ChartAreaVariant from "./charts/chart-area-variant";
+import ChartBarVariant from "./charts/chart-bar-variant";
+import ChartLineVariant from "./charts/chart-line-variant";
 
 type Props = {
   data?: {

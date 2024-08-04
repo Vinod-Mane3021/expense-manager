@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { FaPiggyBank } from "react-icons/fa";
 import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 import DataCard from "./data-card";
-import { DataCardLoading } from "./data-card-loading";
+import { DataCardLoading } from "./loader/data-card-loading";
 
 const DataGrip = () => {
   const { data, isLoading } = useGetSummary();

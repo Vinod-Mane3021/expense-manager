@@ -12,7 +12,7 @@ import {
   PolarRadiusAxis,
   Radar,
 } from "recharts";
-import CustomCategoryTooltip from "./custom-category-tooltip";
+import CustomCategoryTooltip from "../custom-category-tooltip";
 
 type Props = {
   data: {

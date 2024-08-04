@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileSearch, PieChart, Radar, Target } from "lucide-react";
-import ChartPeiVariant from "./chart-pei-variant";
-import ChartRadarVariant from "./chart-radar-variant";
-import ChartRadialVariant from "./chart-radial-variant";
+import ChartPeiVariant from "./charts/chart-pei-variant";
+import ChartRadarVariant from "./charts/chart-radar-variant";
+import ChartRadialVariant from "./charts/chart-radial-variant";
 
 type Props = {
   data?: {

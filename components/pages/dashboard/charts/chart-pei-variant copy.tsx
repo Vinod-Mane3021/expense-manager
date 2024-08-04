@@ -7,7 +7,7 @@ import {
   Cell,
   Tooltip,
 } from "recharts";
-import CustomCategoryTooltip from "./custom-category-tooltip";
+import CustomCategoryTooltip from "../custom-category-tooltip";
 
 const COLORS = ["#0062FF", "#12C6FF", "#FF647F", "#FF9354"];
 
@@ -19,9 +19,6 @@ type Props = {
 };
 
 const ChartPeiVariant = ({ data }: Props) => {
-
-  console.log({ChartPeiVariant: data})
-
   return (
     <ResponsiveContainer width="100%" height={350}>
       <PieChart>
