@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     // uncomment these config while running '/scripts/seed.ts' file
-    "module": "commonjs",
-    // "module": "esnext",
-    // "moduleResolution": "bundler",
+    // "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "lib": [
       "dom",
       "dom.iterable",
@@ -28,7 +28,6 @@
         "./*"
       ]
     },
-    "moduleResolution": "node"
   },
   "include": [
     "next-env.d.ts",
