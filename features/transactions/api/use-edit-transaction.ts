@@ -38,7 +38,7 @@ export const useEditTransaction = (id?: string) => {
       // This will refetch the all transactions, every time I create new transaction
       queryClient.invalidateQueries({ queryKey: ["transaction", { id }] });
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      // TODO: invalidate summary
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: (err) => {
       showToast.error(err.message);

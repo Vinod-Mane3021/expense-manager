@@ -58,7 +58,6 @@ const SpendingPie = ({ data = [] }: Props) => {
             </SelectItem>
           </SelectContent>
         </Select>
-        {/* TODO: Add Select */}
       </CardHeader>
       <CardContent>
         {data.length === 0 ? (

@@ -34,7 +34,7 @@ export const useBulkDeleteTransactions = () => {
       showToast.success(idsLength + message);
       // This will refetch the all transactions, every time I delete transaction
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      // TODO: also invalidate summary
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: (error) => {
       showToast.error(error.message);

@@ -33,7 +33,7 @@ export const useBulkDeleteCategories = () => {
       if(idsLength === 1) {
         queryClient.invalidateQueries({queryKey: ["transactions"]})
       }
-      // TODO: also invalidate summary
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: (error, { ids }) => {
       showToast.error(error.message);

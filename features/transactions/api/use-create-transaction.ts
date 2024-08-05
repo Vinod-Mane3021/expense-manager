@@ -28,7 +28,7 @@ export const useCreateTransaction = () => {
       showToast.success("New transaction has been created.");
       // This will refetch the all transactions, every time I create new transaction
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
-      // TODO: invalidate summery
+      queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: (err) => {
       showToast.error(err.message);
