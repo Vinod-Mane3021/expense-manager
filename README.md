@@ -1,5 +1,5 @@
 
-![Dashboard](./public/spanshots/app_image.png)
+![Dashboard](./public/screenshots/app_image.png)
 
 
 <div align="center">
@@ -164,11 +164,13 @@ I'd be happy to connect with you! <br>
 
 ## 📸 Screenshots
 <!-- - ![Dashboard](./public/app_image.png) -->
-- ![Transaction Form](./public/spanshots/transaction_page.png)
+- ![Dashboard](./public/screenshots/dashboard.png)
 
-- ![Settings](./public/spanshots/account_page.png)
+- ![Transaction Form](./public/screenshots/transaction_page.png)
 
-- ![Reports](./public/spanshots/category_page.png)
+- ![Settings](./public/screenshots/account_page.png)
+
+- ![Reports](./public/screenshots/category_page.png)
 
 
 
