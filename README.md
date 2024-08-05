@@ -42,8 +42,6 @@ Expense Manager is an innovative Finance SaaS Platform designed to help users ef
 - **🧩 Customizable Select Components**: Tailor your selection options to fit your needs.
 - **💵 Income and Expense Toggle**: Switch between viewing income and expenses.
 - **🔄 CSV Transaction Imports**: Import transactions via CSV files for quick data entry.
-- **🔥 API via Hono.js**: Robust API built with Hono.js.
-- **🪝 State Management via Tanstack React Query**: Efficient state management for data fetching and caching.
 - **🔗 Bank Account Connections with Plaid**: Connect to your bank accounts securely using Plaid.
 - **💳 Premium Upgrades via Lemon Squeezy**: Monetize your product with premium features.
 - **🔐 Authentication via Clerk (Core 2)**: Secure authentication with Clerk.
@@ -52,7 +50,6 @@ Expense Manager is an innovative Finance SaaS Platform designed to help users ef
 - **👤 User Settings Customization**: Personalize user settings for a better experience.
 - **🌐 Built with Next.js 14**: Utilizing the latest features of Next.js.
 - **🎨 Styled with TailwindCSS and Shadcn UI**: Modern and responsive styling.
-- **💾 PostgreSQL & Drizzle ORM**: Reliable data storage and ORM.
 - **🚀 Deployed on Vercel**: Fast and scalable deployment on Vercel.
 
 
