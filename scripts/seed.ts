@@ -11,7 +11,7 @@ config({ path: ".env.local" });
 
 const db = new PrismaClient();
 
-const SEED_USER_ID = "user_2j3beyckb50Rm9Q36Rj2lXTYHl4";
+const SEED_USER_ID = "user_2lKzvx88yG8i9FYNfVamH5JDW5T";
 
 const SEED_CATEGORIES = [
   { id: "category_1", name: "Food", userId: SEED_USER_ID, plaidId: null },
